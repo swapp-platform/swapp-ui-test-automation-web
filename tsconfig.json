@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "module": "ESNext",
+        "target": "es2022",
+        "lib": [
+            "es2022",
+            "dom"
+        ],
+        "types": [
+            "node",
+            "@wdio/globals/types",
+            "expect-webdriverio",
+            "@wdio/jasmine-framework",
+            "wdio-vscode-service"
+        ],
+        "skipLibCheck": true,
+        "noEmit": true,
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "outDir": "dist",
+        "esModuleInterop": true,
+        "baseUrl": ".",
+        "paths": {
+            "*": ["node_modules/*"]
+          }
+    },
+    "include": [
+        "./test/**/*.ts",
+        "wdio.conf.ts",
+        "./config/**/*.ts",
+        "./common/**/*.ts"
+    ]
+}

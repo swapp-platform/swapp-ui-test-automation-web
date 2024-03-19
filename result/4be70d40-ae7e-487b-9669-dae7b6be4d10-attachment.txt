@@ -1,0 +1,20 @@
+.........Console Logs.........
+
+{
+  'apigw-requestid': 'U0-uJgNdliAEMsg=',
+  connection: 'keep-alive',
+  'content-encoding': 'gzip',
+  'content-length': '40',
+  'content-type': 'application/json; charset=utf-8',
+  date: 'Mon, 18 Mar 2024 13:42:24 GMT',
+  etag: '"6j6pmtmulik"',
+  'set-cookie': 'swapp_auth_jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZGVudGl0eS1zZXJ2aWNlQHFhLmpvaW5zd2FwcC5jb20iLCJhdWQiOiJxYS5qb2luc3dhcHAuY29tIiwicm9sZXMiOlsiUk9MRV9DVVNUT01FUiJdLCJzd2FwcFVzZXJJZCI6IjMyZGE2NjQ0LTE1ZTctNDBkMi05M2ZhLTMxMzgwNGQ3MmY3MiIsImlzcyI6InFhLmpvaW5zd2FwcC5jb20iLCJlbWFpbCI6ImRhdmlkLnN3YXBwLnRlc3QuMDAxQGVtYWlsLmNvbSJ9.iEjuPDjh1x__fB2JHBzG4gXR_4VzJYj_yxVISRuWLWw; Max-Age=86400000; Path=/; HttpOnly; Secure; SameSite=Lax',
+  vary: 'Accept-Encoding',
+  via: '1.1 d667fe6bf9fe3fd5597714f8c6efee72.cloudfront.net (CloudFront)',
+  'x-amz-cf-id': 'OW0Cp-s0dhFB9sIFgTfxUnP4cg7emJNRK4SN5l1jqZK5ZauHBvVv2Q==',
+  'x-amz-cf-pop': 'BUD50-C1',
+  'x-cache': 'Miss from cloudfront'
+}
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZGVudGl0eS1zZXJ2aWNlQHFhLmpvaW5zd2FwcC5jb20iLCJhdWQiOiJxYS5qb2luc3dhcHAuY29tIiwicm9sZXMiOlsiUk9MRV9DVVNUT01FUiJdLCJzd2FwcFVzZXJJZCI6IjMyZGE2NjQ0LTE1ZTctNDBkMi05M2ZhLTMxMzgwNGQ3MmY3MiIsImlzcyI6InFhLmpvaW5zd2FwcC5jb20iLCJlbWFpbCI6ImRhdmlkLnN3YXBwLnRlc3QuMDAxQGVtYWlsLmNvbSJ9.iEjuPDjh1x__fB2JHBzG4gXR_4VzJYj_yxVISRuWLWw
+swapp_auth_jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZGVudGl0eS1zZXJ2aWNlQHFhLmpvaW5zd2FwcC5jb20iLCJhdWQiOiJxYS5qb2luc3dhcHAuY29tIiwicm9sZXMiOlsiUk9MRV9DVVNUT01FUiJdLCJzd2FwcFVzZXJJZCI6IjMyZGE2NjQ0LTE1ZTctNDBkMi05M2ZhLTMxMzgwNGQ3MmY3MiIsImlzcyI6InFhLmpvaW5zd2FwcC5jb20iLCJlbWFpbCI6ImRhdmlkLnN3YXBwLnRlc3QuMDAxQGVtYWlsLmNvbSJ9.iEjuPDjh1x__fB2JHBzG4gXR_4VzJYj_yxVISRuWLWw; Max-Age=86400000; Path=/; HttpOnly; Secure; SameSite=Lax
+{"status":"success"}

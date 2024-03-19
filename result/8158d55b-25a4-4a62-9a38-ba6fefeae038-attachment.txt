@@ -1,0 +1,4 @@
+.........Console Logs.........
+
+My Login application DeliveryDetailsPage - 
+SelfPickup location is not defined!

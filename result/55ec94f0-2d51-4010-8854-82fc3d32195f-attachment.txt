@@ -1,0 +1,21 @@
+.........Console Logs.........
+
+My Login application should login with valid credentials
+{
+  'apigw-requestid': 'UnlSSg_uFiAEPPA=',
+  connection: 'keep-alive',
+  'content-encoding': 'gzip',
+  'content-length': '40',
+  'content-type': 'application/json; charset=utf-8',
+  date: 'Thu, 14 Mar 2024 12:08:59 GMT',
+  etag: '"6j6pmtmulik"',
+  'set-cookie': 'swapp_auth_jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZGVudGl0eS1zZXJ2aWNlQHFhLmpvaW5zd2FwcC5jb20iLCJhdWQiOiJxYS5qb2luc3dhcHAuY29tIiwicm9sZXMiOlsiUk9MRV9DVVNUT01FUiJdLCJzd2FwcFVzZXJJZCI6IjMyZGE2NjQ0LTE1ZTctNDBkMi05M2ZhLTMxMzgwNGQ3MmY3MiIsImlzcyI6InFhLmpvaW5zd2FwcC5jb20iLCJlbWFpbCI6ImRhdmlkLnN3YXBwLnRlc3QuMDAxQGVtYWlsLmNvbSJ9.iEjuPDjh1x__fB2JHBzG4gXR_4VzJYj_yxVISRuWLWw; Max-Age=86400000; Path=/; HttpOnly; Secure; SameSite=Lax',
+  vary: 'Accept-Encoding',
+  via: '1.1 098a40a244b2c7fde2801a1f5e41d6ca.cloudfront.net (CloudFront)',
+  'x-amz-cf-id': 'l_y7Miq7xhtLne3JOzUXJHubRHyUJzfZwMdDrrX4z3k0S-WBWs1Xaw==',
+  'x-amz-cf-pop': 'BUD50-C1',
+  'x-cache': 'Miss from cloudfront'
+}
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZGVudGl0eS1zZXJ2aWNlQHFhLmpvaW5zd2FwcC5jb20iLCJhdWQiOiJxYS5qb2luc3dhcHAuY29tIiwicm9sZXMiOlsiUk9MRV9DVVNUT01FUiJdLCJzd2FwcFVzZXJJZCI6IjMyZGE2NjQ0LTE1ZTctNDBkMi05M2ZhLTMxMzgwNGQ3MmY3MiIsImlzcyI6InFhLmpvaW5zd2FwcC5jb20iLCJlbWFpbCI6ImRhdmlkLnN3YXBwLnRlc3QuMDAxQGVtYWlsLmNvbSJ9.iEjuPDjh1x__fB2JHBzG4gXR_4VzJYj_yxVISRuWLWw
+swapp_auth_jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZGVudGl0eS1zZXJ2aWNlQHFhLmpvaW5zd2FwcC5jb20iLCJhdWQiOiJxYS5qb2luc3dhcHAuY29tIiwicm9sZXMiOlsiUk9MRV9DVVNUT01FUiJdLCJzd2FwcFVzZXJJZCI6IjMyZGE2NjQ0LTE1ZTctNDBkMi05M2ZhLTMxMzgwNGQ3MmY3MiIsImlzcyI6InFhLmpvaW5zd2FwcC5jb20iLCJlbWFpbCI6ImRhdmlkLnN3YXBwLnRlc3QuMDAxQGVtYWlsLmNvbSJ9.iEjuPDjh1x__fB2JHBzG4gXR_4VzJYj_yxVISRuWLWw; Max-Age=86400000; Path=/; HttpOnly; Secure; SameSite=Lax
+!! Test failed at this url: data:,

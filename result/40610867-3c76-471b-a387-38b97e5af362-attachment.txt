@@ -1,0 +1,22 @@
+.........Console Logs.........
+
+My Login application should login with valid credentials
+{
+  'apigw-requestid': 'U0Yj8jxMliAEJtA=',
+  connection: 'keep-alive',
+  'content-encoding': 'gzip',
+  'content-length': '40',
+  'content-type': 'application/json; charset=utf-8',
+  date: 'Mon, 18 Mar 2024 09:21:54 GMT',
+  etag: '"6j6pmtmulik"',
+  'set-cookie': 'swapp_auth_jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZGVudGl0eS1zZXJ2aWNlQHFhLmpvaW5zd2FwcC5jb20iLCJhdWQiOiJxYS5qb2luc3dhcHAuY29tIiwicm9sZXMiOlsiUk9MRV9DVVNUT01FUiJdLCJzd2FwcFVzZXJJZCI6IjMyZGE2NjQ0LTE1ZTctNDBkMi05M2ZhLTMxMzgwNGQ3MmY3MiIsImlzcyI6InFhLmpvaW5zd2FwcC5jb20iLCJlbWFpbCI6ImRhdmlkLnN3YXBwLnRlc3QuMDAxQGVtYWlsLmNvbSJ9.iEjuPDjh1x__fB2JHBzG4gXR_4VzJYj_yxVISRuWLWw; Max-Age=86400000; Path=/; HttpOnly; Secure; SameSite=Lax',
+  vary: 'Accept-Encoding',
+  via: '1.1 098a40a244b2c7fde2801a1f5e41d6ca.cloudfront.net (CloudFront)',
+  'x-amz-cf-id': 'ggzXpDMp1QxnL45hncj9VK9UjC5Jp_AZ5ZOmkmMbuBZXv48DpC7IIQ==',
+  'x-amz-cf-pop': 'BUD50-C1',
+  'x-cache': 'Miss from cloudfront'
+}
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZGVudGl0eS1zZXJ2aWNlQHFhLmpvaW5zd2FwcC5jb20iLCJhdWQiOiJxYS5qb2luc3dhcHAuY29tIiwicm9sZXMiOlsiUk9MRV9DVVNUT01FUiJdLCJzd2FwcFVzZXJJZCI6IjMyZGE2NjQ0LTE1ZTctNDBkMi05M2ZhLTMxMzgwNGQ3MmY3MiIsImlzcyI6InFhLmpvaW5zd2FwcC5jb20iLCJlbWFpbCI6ImRhdmlkLnN3YXBwLnRlc3QuMDAxQGVtYWlsLmNvbSJ9.iEjuPDjh1x__fB2JHBzG4gXR_4VzJYj_yxVISRuWLWw
+swapp_auth_jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZGVudGl0eS1zZXJ2aWNlQHFhLmpvaW5zd2FwcC5jb20iLCJhdWQiOiJxYS5qb2luc3dhcHAuY29tIiwicm9sZXMiOlsiUk9MRV9DVVNUT01FUiJdLCJzd2FwcFVzZXJJZCI6IjMyZGE2NjQ0LTE1ZTctNDBkMi05M2ZhLTMxMzgwNGQ3MmY3MiIsImlzcyI6InFhLmpvaW5zd2FwcC5jb20iLCJlbWFpbCI6ImRhdmlkLnN3YXBwLnRlc3QuMDAxQGVtYWlsLmNvbSJ9.iEjuPDjh1x__fB2JHBzG4gXR_4VzJYj_yxVISRuWLWw; Max-Age=86400000; Path=/; HttpOnly; Secure; SameSite=Lax
+{"status":"success"}
+!! Test failed at this url: https://qa.joinswapp.com/rental/en-DXB/dubai/cars/?from=2024-03-19T13%3A00%3A00.000Z&to=2024-03-20T13%3A00%3A00.000Z&productType=DAILY

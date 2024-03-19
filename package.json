@@ -1,0 +1,27 @@
+{
+  "name": "swapp-ui-test-automation-web",
+  "type": "module",
+  "devDependencies": {
+    "@types/jasmine": "^5.1.4",
+    "@wdio/allure-reporter": "^8.32.2",
+    "@wdio/cli": "^8.32.3",
+    "@wdio/jasmine-framework": "^8.32.3",
+    "@wdio/junit-reporter": "^8.32.2",
+    "@wdio/local-runner": "^8.32.3",
+    "@wdio/spec-reporter": "^8.32.2",
+    "dotenv": "^16.3.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "wdio-chromedriver-service": "^8.1.1",
+    "wdio-eslinter-service": "^0.0.4",
+    "wdio-vscode-service": "^6.0.3"
+  },
+  "scripts": {
+    "wdio": "wdio run ./wdio.conf.ts",
+    "test": "NODE_ENV=development wdio config/wdio-desktop-config.ts"
+  },
+  "dependencies": {
+    "chromedriver": "^122.0.4",
+    "node-fetch": "^3.3.2"
+  }
+}

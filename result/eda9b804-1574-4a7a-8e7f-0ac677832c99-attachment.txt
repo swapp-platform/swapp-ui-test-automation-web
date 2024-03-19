@@ -1,0 +1,4 @@
+.........Console Logs.........
+
+My Login application Addons Page - 
+!! Test failed at this url: https://qa.joinswapp.com/rental/en-DXB/dubai/cars/17/summary/
