@@ -24,6 +24,23 @@ type BookingTestCase = {
     
 }
 
+type POC = {
+    carId : number;
+    isHappyPath: boolean;
+    isIncluded: boolean;
+    rentalFeePerDay: number;
+    fromDate: BookingPeriodDate;
+    endDate: BookingPeriodDate;
+    startTime: string;
+    endTime: string;
+    //-- Delivery details
+    deliveryDetailsPageOptions: DeliveryDetailsPageOptions;
+    //--Addons
+    addonPageOptions: AddonPageOptions;
+    paymentPageOptions: PaymentPageOptions;
+    
+}
+
 
 
 export enum AddOnInsurance {
@@ -60,6 +77,93 @@ export type VisibilityObject = {
     pauseTime: number
 }
 
+export type ContactField = {
+    firstName: string
+    lastName: string
+    emailAddress: string
+    phoneNumber: string
+    whatsappNumber: string
+}
+
+export type DeliveryDetailsPageOptions = {
+    deliveryOption: DeliverOption
+    contact?: ContactField 
+    deliveryDetails: SelfPickupDeliveryDetails | DoorToDoorDeliveryDetails
+}
+
+export type SelfPickupDeliveryDetails = {
+    selfPickupLocation?: String //here ? needed, because deliveryOption can be D2D. If Delivery Option is DEFAULT or SELF_PICKUP, this field is always needed
+    selfPickupDateTime?: BookingPeriod
+    selfPickupReturnDateTime?: BookingPeriod;
+}
+
+export type DoorToDoorDeliveryDetails = {
+    doorToDoorLocation?: String
+    doorToDoorDateTime?: BookingPeriod
+    doorToDoorReturnLocation?: String
+    doorToDoorReturnDateTime?: BookingPeriod
+}
+
+export type AddonPageOptions = {
+    insurance?: AddOnInsurance 
+    secondaryDriver?: AddOnSecondaryDriver
+}
+
+export type PaymentPageOptions = {
+    cardDetails?: CardDetails
+    billingDetails?: BillingDetails
+}
+
+export type CardDetails = {
+    cardNumber: number
+    expiration: String
+    cvv: number
+}
+
+export type BillingDetails = {
+    billingName: String
+    addressLine1: String
+    addressLine2: String
+    state: String
+    zip: number
+    city: String
+    country: String
+}
+
+export const pocCase1: POC[] = [
+    {
+        carId: 17,
+        isIncluded: true,
+        isHappyPath: true,
+        rentalFeePerDay: 80,
+        fromDate: {month: "March", day: 25},
+        endDate: {month: "March", day: 28},
+        startTime : "10:00:00",
+        endTime: "14:00:00",
+        deliveryDetailsPageOptions: {
+            deliveryOption: DeliverOption.DEFAULT,
+            deliveryDetails: {
+                selfPickupLocation: "asd",
+            }
+        },
+        addonPageOptions: {
+            insurance: AddOnInsurance.NOTHING,
+            secondaryDriver: AddOnSecondaryDriver.WITH
+        },
+        paymentPageOptions: {
+
+        }
+
+
+        
+
+
+
+    }
+]
+
+
+
 export const Case1: BookingTestCase[]= [
     {
         carId: 17,
@@ -75,7 +179,8 @@ export const Case1: BookingTestCase[]= [
         // selfPickupDateTime
 
         insurance: AddOnInsurance.CDW,
-        secondaryDriver: AddOnSecondaryDriver.WITH
+        secondaryDriver: AddOnSecondaryDriver.WITH,
+
     },
     {
         carId: 20,
