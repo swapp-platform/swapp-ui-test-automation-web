@@ -25,7 +25,7 @@ export class Door2DoorMap{
     }
 
     get confirmAddressButton(): WebdriverIOElement{
-        return $(`//div[@data-testid="cars-summary_edit-address-modal_confirm_button"]`);
+        return $(`//button[@data-testid="cars-summary_edit-address-modal_confirm_button"]`);
     }
 
     get saveDeliveryAddressButton(): WebdriverIOElement{

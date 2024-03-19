@@ -59,24 +59,8 @@ export const sharedConfig: WebdriverIO.Config = {
     },
   },
   //before: function (caps, specs, browser) {
-    //browser.addCommand(
-    //  'waitAndClick',
-    //  function () {
-    //    this.waitForDisplayed();
-    //    this.click();
-    //  },
-    //  true
-    //);
-//
-    //const sessionId = driver.sessionId;
-    //console.log({ sessionId });
-//
-    //// console.log({ device: driver.capabilities.device });
-    //// // @ts-ignore
-    //// console.log({ os_version: driver.capabilities.os_version });
-    //driver.logEvent('driver.sessionId', sessionId);
-    //allureReporter.addAttachment('driver.sessionId', sessionId, 'text/plain');
- // },
+  //  browser.addCommand("myCustomElementCommand", () => { console.log('adsasdasdasd'); return 1 }, true);
+  //},
   beforeTest: async function (test, context) {
     console.log(test.fullName);
   },

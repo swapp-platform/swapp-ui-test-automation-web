@@ -7,12 +7,13 @@ import BookingDeliveryDetailsPage from "../pageobjects/booking/booking-delivery-
 import BookingAddonsPage from "../pageobjects/booking/booking-add-ons.page.js";
 import BookingPaymentPage from "../pageobjects/booking/booking-payment.page.js";
 import {Case1, DeliverOption} from "../../common/types/types.js";
+import {VisibilityObject} from "../../common/types/types.js";
 
 
 Case1.forEach( (testCase) => {
     var car:CarCard;
 
-    describe('My Login application', () => {
+    describe('Create the booking on USER side =>', () => {
 
         beforeAll(async () => {
             await browser.url(EnvironmentVariables.joinswapp_url);
@@ -23,16 +24,12 @@ Case1.forEach( (testCase) => {
 
         it('Daily HOME - select the car', async () => {
             car = new CarCard(testCase.carId);
-            await car.card.scrollIntoView()
-            await car.card.click();
+            await car.card.visiblityClick();
         });
 
         it('Car details - ', async () => {
-            await CarDetailsPage.termsAndConditionsCheckbox.scrollIntoView({block: 'center', inline: 'center'});
-            await CarDetailsPage.termsAndConditionsCheckbox.click();
-            await browser.pause(3000);
-
-            await CarDetailsPage.continueToBookingButton.click();
+            await CarDetailsPage.termsAndConditionsCheckbox.visiblityClick( {waitForDisplayedTimeout : 4000, pauseTime : 4000});
+            await CarDetailsPage.continueToBookingButton.visiblityClick();
 
         });
 
@@ -41,8 +38,7 @@ Case1.forEach( (testCase) => {
                 testCase.deliveryOption == DeliverOption.SELF_PICKUP){
 
                 try{
-                    await BookingDeliveryDetailsPage.editSelfPickupLocationButton.scrollIntoView({block: 'center', inline: 'center'});
-                    await BookingDeliveryDetailsPage.editSelfPickupLocationButton.click();
+                    await BookingDeliveryDetailsPage.editSelfPickupLocationButton.visiblityClick();
                     await BookingDeliveryDetailsPage.selfPickupLocationMap.confirmPickupLocation.click();
                     await BookingDeliveryDetailsPage.selfPickupLocationMap.getLocation(testCase.selfPickupLocation!)
                     await BookingDeliveryDetailsPage.selfPickupLocationMap.confirmPickupLocation.click();
@@ -52,20 +48,19 @@ Case1.forEach( (testCase) => {
                 }catch(error) {
                     console.log("SelfPickup location is not defined!");
                 }
+
             } else if(testCase.deliveryOption == DeliverOption.DOOR_TO_DOOR){
                 await BookingDeliveryDetailsPage.editDoor2DoorLocationDeliveryButton.click();
                 await BookingDeliveryDetailsPage.door2DoorMap.addressInput.click();
                 await BookingDeliveryDetailsPage.door2DoorMap.addressInput.setValue(testCase.doorToDoorLocation!.toString());
-                await BookingDeliveryDetailsPage.door2DoorMap.selectAddressSuggestion(1).click();
-                await BookingDeliveryDetailsPage.door2DoorMap.confirmAddressButton.click();
-                await BookingDeliveryDetailsPage.door2DoorMap.saveDeliveryAddressButton.click();
+                await BookingDeliveryDetailsPage.door2DoorMap.selectAddressSuggestion(1).visiblityClick();
+                await BookingDeliveryDetailsPage.door2DoorMap.confirmAddressButton.visiblityClick();
+                await BookingDeliveryDetailsPage.door2DoorMap.saveDeliveryAddressButton.visiblityClick();
             }
 
 
 
-            await BookingDeliveryDetailsPage.continueToAddonsButton.waitForDisplayed();
-            await BookingDeliveryDetailsPage.continueToAddonsButton.scrollIntoView({block: 'center', inline: 'center'});
-            await BookingDeliveryDetailsPage.continueToAddonsButton.click();
+            await BookingDeliveryDetailsPage.continueToAddonsButton.visiblityClick();
 
 
         });
@@ -80,8 +75,17 @@ Case1.forEach( (testCase) => {
             }
 
             await BookingAddonsPage.continueToPaymentButton.click();
-            
-            await browser.pause(20000);
+            //await browser.pause(20000);
+
+        });
+
+
+        it('lol - ', async () => {
+
+            //await API.LoginToADMIN();
+            await browser.url("https://qa.joinswapp.com/rental-admin/users/?pageSize=10");
+            //await browser.pause(20000);
+
 
         });
 

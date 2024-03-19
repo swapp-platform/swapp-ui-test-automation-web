@@ -15,10 +15,6 @@ class Api {
     }
 
 
-    /**
-     * Finally, any singleton should define some business logic, which can be
-     * executed on its instance.
-     */
     public async LoginWithAPI()  {
         //const response = await fetch('https://api.github.com/users/github');
         const response : Response= await fetch('https://qa.joinswapp.com/rental/api/auth/login', 
@@ -33,7 +29,7 @@ class Api {
         
         const data = await response.text();
         const headers = await response.headers;
-        console.log(headers);
+        //console.log(headers);
         const startCharVal = "=";
         const endCharVal = ";";
         // @ts-ignore: Object is possibly 'null'.
@@ -42,7 +38,46 @@ class Api {
         const endIndex = headers.get('set-cookie').indexOf(endCharVal, startIndex);
         // @ts-ignore: Object is possibly 'null'.
         const result = headers.get('set-cookie').substring(startIndex, endIndex);
-        console.log(result);
+        //console.log(result);
+
+        const set_cookie = headers.get('set-cookie');
+
+        console.log(headers.get('set-cookie'));
+        await browser.setCookies({
+            name: 'swapp_auth_jwt',
+            value: result,
+            domain:"qa.joinswapp.com"
+
+        });
+
+        console.log(data);
+    }
+
+    public async LoginToADMIN()  {
+        //const response = await fetch('https://api.github.com/users/github');
+        const response : Response= await fetch('https://qa.joinswapp.com/rental-admin/api/auth/login/', 
+        {method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'connection':' keep-alive'},
+         body: JSON.stringify({
+            email:"daily.admin@joinswapp.com",
+            password:"d1U3XR#gmp&j",
+            userType: "admin"
+            })
+        });
+
+        
+        const data = await response.text();
+        const headers = await response.headers;
+        //console.log(headers);
+        const startCharVal = "=";
+        const endCharVal = ";";
+        // @ts-ignore: Object is possibly 'null'.
+        const startIndex = headers.get('set-cookie').indexOf(startCharVal) + 1;  
+        // @ts-ignore: Object is possibly 'null'.
+        const endIndex = headers.get('set-cookie').indexOf(endCharVal, startIndex);
+        // @ts-ignore: Object is possibly 'null'.
+        const result = headers.get('set-cookie').substring(startIndex, endIndex);
+        //console.log(result);
 
         const set_cookie = headers.get('set-cookie');
 

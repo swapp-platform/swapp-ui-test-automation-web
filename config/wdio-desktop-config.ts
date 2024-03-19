@@ -3,6 +3,7 @@ import allureReporter from '@wdio/allure-reporter';
 
 import { EnvironmentVariables } from './environment-variables.js';
 import { sharedConfig } from './shared-config.js';
+import {  VisibilityObject } from '../common/types/types.js';
 
 export const config: WebdriverIO.Config = {
   ...sharedConfig,
@@ -47,8 +48,20 @@ export const config: WebdriverIO.Config = {
     },
   ],
   services: ['chromedriver'],
+  before: function (caps, specs, browser) {
+    browser.addCommand("visiblityClick", async function (param : VisibilityObject = {waitForDisplayedTimeout : 1000, pauseTime : 2000}) {
+        console.log(param.pauseTime);
+        console.log(param.waitForDisplayedTimeout);
+        await this.scrollIntoView();
+        
+        await this.waitForDisplayed({timeout: param.waitForDisplayedTimeout});
+        await browser.pause(param.pauseTime);
+        await this.click();
+      },
+      true);
+  },
   beforeHook: function () {
-    allureReporter.addEnvironment('specs', EnvironmentVariables.configSpecs);
+    //allureReporter.addEnvironment('specs', EnvironmentVariables.configSpecs);
   },
   beforeTest: async function (test) {
     console.log(test.fullName);

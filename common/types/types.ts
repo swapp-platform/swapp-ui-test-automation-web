@@ -55,6 +55,11 @@ export type BookingPeriod={
 
 }
 
+export type VisibilityObject = {
+    waitForDisplayedTimeout: number
+    pauseTime: number
+}
+
 export const Case1: BookingTestCase[]= [
     {
         carId: 17,
@@ -81,7 +86,7 @@ export const Case1: BookingTestCase[]= [
         endTime: "14:00:00",
         //
         deliveryOption: DeliverOption.DOOR_TO_DOOR,
-        doorToDoorLocation: "asd",
+        doorToDoorLocation: "Burj",
         // selfPickupDateTime
         // selfPickupDateTime
 
