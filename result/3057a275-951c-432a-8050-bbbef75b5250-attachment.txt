@@ -1,3 +1,0 @@
-.........Console Logs.........
-
-My Login application should login with valid credentials

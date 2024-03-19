@@ -16,3 +16,8 @@ lerna-debug.log*
 # Ignore IDE specific files
 .idea/
 .vscode/
+
+# reports
+allure-report
+result
+junit

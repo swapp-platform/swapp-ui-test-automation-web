@@ -1,4 +1,0 @@
-.........Console Logs.........
-
-My Login application DeliveryDetailsPage - 
-!! Test failed at this url: https://qa.joinswapp.com/rental/en-DXB/dubai/cars/20/summary/
