@@ -1,20 +1,42 @@
+import { RentalBreakdownPanel, RentalBreakdownPanelInstance } from "../../../common/util/components/rental-breakdown-panel.js";
 import { AddOnInsurance, AddOnSecondaryDriver } from "../../../common/types/types.js";
 import { WebdriverIOElement } from "../../../common/types/wdio.js";
 
 class BookingAddOnsPage {
+    get rentalBreakdownPanel(): RentalBreakdownPanel{
+        return RentalBreakdownPanelInstance;
+    }
+
     get insuraneComprehensive(): WebdriverIOElement{
         return $('//div[@data-testid="rental_car_add-on_normal-insurance-selected"] | //div[@data-testid="rental_car_add-on_normal-insurance"]');
+    }
+
+    get insuraneComprehensiveSelected(): WebdriverIOElement{
+        return $('//div[@data-testid="rental_car_add-on_normal-insurance-selected"]');
     }
 
     get insuraneCDW(): WebdriverIOElement{
         return $('//div[@data-testid="rental_car_add-on_extra-insurance"] | //div[@data-testid="rental_car_add-on_extra-insurance-selected"]');
     }
 
+    get insuraneCDWSelected(): WebdriverIOElement{
+        return $('//div[@data-testid="rental_car_add-on_extra-insurance-selected"]');
+    }
+
     get withoutSecondaryDriver(): WebdriverIOElement{
         return $('//div[@data-testid="rental_car_add-on_without-secondary-driver"] | //div[@data-testid="rental_car_add-on_without-secondary-driver-selected"]');
     }
+
+    get withoutSecondaryDriverSelected(): WebdriverIOElement{
+        return $('//div[@data-testid="rental_car_add-on_without-secondary-driver-selected"]');
+    }
+
     get withSecondaryDriver(): WebdriverIOElement{
         return $('//div[@data-testid="rental_car_add-on_with-secondary-driver"] | //div[@data-testid="rental_car_add-on_with-secondary-driver-selected"]');
+    }
+
+    get withSecondaryDriverSelected(): WebdriverIOElement{
+        return $('//div[@data-testid="rental_car_add-on_with-secondary-driver-selected"]');
     }
     
     get continueToPaymentButton(): WebdriverIOElement{

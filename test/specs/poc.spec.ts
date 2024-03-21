@@ -6,17 +6,20 @@ import CarDetailsPage from '../pageobjects/car-details.page.js';
 import BookingDeliveryDetailsPage from "../pageobjects/booking/booking-delivery-details.page.js";
 import BookingAddonsPage from "../pageobjects/booking/booking-add-ons.page.js";
 import BookingPaymentPage from "../pageobjects/booking/booking-payment.page.js";
-import {Case1, pocCase1, DeliverOption, SelfPickupDeliveryDetails, DoorToDoorDeliveryDetails} from "../../common/types/types.js";
+import {Case1, pocCase1, DeliverOption, SelfPickupDeliveryDetails, DoorToDoorDeliveryDetails, AddOnInsurance, AddOnSecondaryDriver} from "../../common/types/types.js";
 import {VisibilityObject} from "../../common/types/types.js";
+import {getFormattedDateAsString} from "../../common/util/helper.js";
 
-
-pocCase1.forEach( (testCase) => {
+pocCase1
+    .filter( (testCase) => testCase.isIncluded == true)
+    .forEach( (testCase) => {
     var car:CarCard;
 
     describe('Create the booking on USER side =>', () => {
 
         beforeAll(async () => {
             await browser.url(EnvironmentVariables.joinswapp_url);
+            // https://qa.joinswapp.com/rental/en-DXB/dubai/cars/?from=2024-03-15T13%3A00%3A00.000Z&to=2024-03-16T13%3A00%3A00.000Z&productType=DAILY
             await API.LoginWithAPI();
             await browser.url(EnvironmentVariables.joinswapp_url);
         });
@@ -33,14 +36,27 @@ pocCase1.forEach( (testCase) => {
 
         });
 
-        it("DeliveryDetailsPage - ", async () => {
+        describe("DeliveryDetailsPage =>  ",  () => {
 
 
             if(testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DEFAULT || testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.SELF_PICKUP){
                 const details = testCase.deliveryDetailsPageOptions.deliveryDetails as SelfPickupDeliveryDetails;
                 if(details.selfPickupLocation!= undefined){
                     //change location
-                    console.log("HEUHEUHEHUU")
+                    it('Change location', async () => {
+                        await BookingDeliveryDetailsPage.editSelfPickupLocationButton.visiblityClick();
+                        await browser.pause(2000);
+                        await BookingDeliveryDetailsPage.selfPickupLocationMap.confirmPickupLocation.click();
+                        await browser.pause(2000);
+
+                        //await BookingDeliveryDetailsPage.selfPickupLocationMap.getLocation(details.selfPickupLocation!);
+                        //await BookingDeliveryDetailsPage.selfPickupLocationMap.confirmPickupLocation.click();
+
+                        expect(await BookingDeliveryDetailsPage.selfPickupLocationTitle.getText())
+                            .withContext('Self pickup location is not correct')
+                            .toEqual("Burj Kalifa tower");
+
+                    });
                 }
 
                 if(details.selfPickupDateTime == undefined){
@@ -54,7 +70,8 @@ pocCase1.forEach( (testCase) => {
 
                
 
-            } else if(testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DOOR_TO_DOOR){
+            } 
+            else if(testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DOOR_TO_DOOR){
                 const details = testCase.deliveryDetailsPageOptions.deliveryDetails as DoorToDoorDeliveryDetails;
                 if(details.doorToDoorLocation!= undefined){
                     //change location
@@ -74,44 +91,159 @@ pocCase1.forEach( (testCase) => {
             }
 
 
-            // check Booking period
-                // - Delivery (Date)
-                // - Return (Date)
-            // check Price brakdown 
-                // - Rental period
-                    // - X/day
-            // check Summary
-                // - Total for X days (String with number)
-                // - Total price (Number)
-            await BookingDeliveryDetailsPage.continueToAddonsButton.visiblityClick();
+            it('make assertions', async () => {
 
+                // check book period
+                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.deliveryDateTime.getText())
+                .withContext("delivery time is not correct")
+                .toEqual("Fri, Mar 22,\n 14:00");
+                //.toEqual(getFormattedDateAsString(testCase.startDateTime));
 
+                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.returnDateTime.getText())
+                .withContext("delivery time is not correct")
+                .toEqual("Sat, Mar 23,\n 14:00");
+                
+
+                // check price breakdown
+                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePeriod.getText())
+                .withContext("Rental Price period is not right!")
+                .toEqual(`AED ${testCase.rentalFeePerDay}`);
+
+                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePerDay.getText())
+                .withContext("Rental Price period is not right!")
+                .toEqual(`AED ${testCase.rentalFeePerDay} / day`);
+
+                // summary
+                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPriceSummary.getText())
+                .withContext("Total price is not correct!")
+                .toEqual(`AED ${testCase.rentalFeePerDay}`);
+
+                
+                
+                // check Booking period
+                    // - Delivery (Date)
+                    // - Return (Date)
+                // check Price brakdown 
+                    // - Rental period
+                        // - X/day
+                // check Summary
+                    // - Total for X days (String with number)
+                    // - Total price (Number)
+                
+                await BookingDeliveryDetailsPage.continueToAddonsButton.visiblityClick();
+            });
         });
 
-        it('Addons Page - ', async () => {
-            if (testCase.addonPageOptions.insurance != undefined){
-                await BookingAddonsPage.setInsurance(testCase.addonPageOptions.insurance);
+
+        describe('Addons Page - ', () => {
+            if (testCase.addonPageOptions.insurance != undefined && testCase.addonPageOptions.insurance != AddOnInsurance.NOTHING){
+                it('Set insurance', async () => {
+                    await BookingAddonsPage.setInsurance(testCase.addonPageOptions.insurance!);
+                    
+                    switch(testCase.addonPageOptions.insurance){
+                        case AddOnInsurance.CDW:
+                            expect(await BookingAddonsPage.insuraneCDWSelected.isDisplayed())
+                            .withContext("CDW is not highlighted!")
+                            .toBeTrue();
+                            break;
+                        case AddOnInsurance.COMPREHENSIVE:
+                            expect(await BookingAddonsPage.insuraneComprehensiveSelected.isDisplayed())
+                            .withContext("Comprehensive is not highlighted!")
+                            .toBeTrue();
+                            break;
+                    }
+                });
             }
 
-            if (testCase.addonPageOptions.secondaryDriver != undefined){
-                await BookingAddonsPage.setSecondaryDriver(testCase.addonPageOptions.secondaryDriver);
+            if (testCase.addonPageOptions.insurance != undefined && testCase.addonPageOptions.insurance != AddOnInsurance.NOTHING){
+                it('Set Secondary driver', async () => {
+                    await BookingAddonsPage.setSecondaryDriver(testCase.addonPageOptions.secondaryDriver!);
+                    
+                    switch(testCase.addonPageOptions.secondaryDriver){
+                        case AddOnSecondaryDriver.WITH:
+                            expect(await BookingAddonsPage.withSecondaryDriverSelected.isDisplayed())
+                            .withContext("With Secondary driver is not highlighted!")
+                            .toBeTrue();
+                            break;
+                        case AddOnSecondaryDriver.WITHOUT:
+                            expect(await BookingAddonsPage.withoutSecondaryDriverSelected.isDisplayed())
+                            .withContext("Without Secondary Driver is not highlighted!")
+                            .toBeTrue();
+                            break;
+                    }
+                });
             }
 
-            await BookingAddonsPage.continueToPaymentButton.click();
-            // check Booking period
-                // - Delivery (Date)
-                // - Return (Date)
-            // check Price brakdown 
-                // - Rental period
-                    // - X/day
-                // - Insurance          <-----
-                    // - X/day          <-----
-                // - Secondary driver   <-----
-                    // - X/day          <-----
-            // check Summary
-                // - Total for X days (String with number)
-                // - Total price (Number)
+            it('make assertions', async () => {
 
+                // check book period
+                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.deliveryDateTime.getText())
+                .withContext("delivery time is not correct")
+                .toEqual("Fri, Mar 22,\n 14:00");
+
+                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.returnDateTime.getText())
+                .withContext("delivery time is not correct")
+                .toEqual("Sat, Mar 23,\n 14:00");
+                
+
+                // check price breakdown
+                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePeriod.getText())
+                .withContext("Rental Price period is not right!")
+                .toEqual(`AED ${testCase.rentalFeePerDay}`);
+
+                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePerDay.getText())
+                .withContext("Rental Price period is not right!")
+                .toEqual(`AED ${testCase.rentalFeePerDay} / day`);
+
+                await browser.pause(10000);
+                if(testCase.addonPageOptions.insurance != undefined && testCase.addonPageOptions.insurance == AddOnInsurance.CDW){
+                    console.log("await BookingDeliveryDetailsPage.rentalBreakdownPanel.CDWPricePeriod.getText(");
+                    console.log(await BookingDeliveryDetailsPage.rentalBreakdownPanel.CDWPricePeriod.getText());
+                    expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.CDWPricePeriod.getText())
+                    .withContext("CDW PRICE IS NOT CORRECT")
+                    .toEqual(`AED 10`);
+                    //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
+
+                    expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.CDWPricePerDay.getText())
+                    .withContext("CDW PRICE PER DAY IS NOT CORRECT")
+                    .toEqual(`AED 10 / day`);
+                }
+
+                
+                if(testCase.addonPageOptions.secondaryDriver != undefined && testCase.addonPageOptions.secondaryDriver == AddOnSecondaryDriver.WITH){
+                    expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.secondaryDriverPricePeriod.getText())
+                    .withContext("Secondary driver price IS NOT CORRECT")
+                    .toEqual(`AED 35`);
+                    //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
+
+                    expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.secondaryDriverPricePerDay.getText())
+                    .withContext("Secondary driver PRICE PER DAY IS NOT CORRECT")
+                    .toEqual(`AED 35 / day`);
+                }
+
+                // summary
+                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPriceSummary.getText())
+                .withContext("Total price is not correct!")
+                .toEqual(`AED ${BookingDeliveryDetailsPage.calculateSummary(testCase)}`);
+                
+                //await BookingAddonsPage.continueToPaymentButton.click();
+                // check Booking period
+                    // - Delivery (Date)
+                    // - Return (Date)
+                // check Price brakdown 
+                    // - Rental period
+                        // - X/day
+                    // - Insurance          <-----
+                        // - X/day          <-----
+                    // - Secondary driver   <-----
+                        // - X/day          <-----
+                // check Summary
+                    // - Total for X days (String with number)
+                    // - Total price (Number)
+
+
+                await BookingAddonsPage.continueToPaymentButton.visiblityClick();
+            });
         });
 
         // this needs some happyness checking as well

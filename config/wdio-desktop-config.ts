@@ -50,23 +50,24 @@ export const config: WebdriverIO.Config = {
   services: ['chromedriver'],
   before: function (caps, specs, browser) {
     browser.addCommand("visiblityClick", async function (param : VisibilityObject = {waitForDisplayedTimeout : 1000, pauseTime : 2000}) {
-        console.log(param.pauseTime);
-        console.log(param.waitForDisplayedTimeout);
-        await this.scrollIntoView();
+        await this.scrollIntoView({ block: 'center', inline: 'center' });
         
         await this.waitForDisplayed({timeout: param.waitForDisplayedTimeout});
         await browser.pause(param.pauseTime);
         await this.click();
       },
       true);
+      // https://stackoverflow.com/questions/65928361/extending-expect-webdriverio-with-custom-matchers
+      //require('./matchers.js').addCustomMatchers();
+      
   },
   beforeHook: function () {
     //allureReporter.addEnvironment('specs', EnvironmentVariables.configSpecs);
   },
   beforeTest: async function (test) {
     console.log(test.fullName);
-    // await browser.maximizeWindow();
-    await browser.setWindowSize(1920, 1200);
+     await browser.maximizeWindow();
+    //await browser.setWindowSize(1440, 1200);
   },
   afterTest: async function (test, context, { error }) {
     if (error !== undefined) {

@@ -1,3 +1,4 @@
+import {getDate} from "../util/helper.js";
 
 type BookingTestCase = {
     carId : number;
@@ -24,15 +25,16 @@ type BookingTestCase = {
     
 }
 
-type POC = {
-    carId : number;
-    isHappyPath: boolean;
+export type POC = {
     isIncluded: boolean;
+    isHappyPath: boolean;
+    testCase: string;
+    carId : number;
     rentalFeePerDay: number;
-    fromDate: BookingPeriodDate;
-    endDate: BookingPeriodDate;
-    startTime: string;
-    endTime: string;
+    startDateTime: Date;
+    endDateTime: Date;
+    startTime?: string;
+    endTime?: string;
     //-- Delivery details
     deliveryDetailsPageOptions: DeliveryDetailsPageOptions;
     //--Addons
@@ -132,14 +134,13 @@ export type BillingDetails = {
 
 export const pocCase1: POC[] = [
     {
+        testCase: "SW-38",
         carId: 17,
         isIncluded: true,
         isHappyPath: true,
         rentalFeePerDay: 80,
-        fromDate: {month: "March", day: 25},
-        endDate: {month: "March", day: 28},
-        startTime : "10:00:00",
-        endTime: "14:00:00",
+        startDateTime: getDate(2024,3,22, 14,0,0), //could be improved with tomorrow()
+        endDateTime: getDate(2024,3,23, 14,0,0),
         deliveryDetailsPageOptions: {
             deliveryOption: DeliverOption.DEFAULT,
             deliveryDetails: {
@@ -147,19 +148,104 @@ export const pocCase1: POC[] = [
             }
         },
         addonPageOptions: {
-            insurance: AddOnInsurance.NOTHING,
+            insurance: AddOnInsurance.CDW,
             secondaryDriver: AddOnSecondaryDriver.WITH
         },
         paymentPageOptions: {
 
         }
+    },
+    {
+        testCase: "SW-34",
+        carId: 17,
+        isIncluded: true,
+        isHappyPath: true,
+        rentalFeePerDay: 80,
+        startDateTime: getDate(2024,3,22, 14,0,0), //could be improved with tomorrow()
+        endDateTime: getDate(2024,3,23, 14,0,0),
+        deliveryDetailsPageOptions: {
+            deliveryOption: DeliverOption.DEFAULT,
+            deliveryDetails: {
+                selfPickupLocation: "asd",
+            }
+        },
+        addonPageOptions: {
+            insurance: AddOnInsurance.COMPREHENSIVE,
+            secondaryDriver: AddOnSecondaryDriver.WITH
+        },
+        paymentPageOptions: {
 
+        }
+    },
+    {
+        testCase: "SW-10",
+        carId: 17,
+        isIncluded: true,
+        isHappyPath: true,
+        rentalFeePerDay: 80,
+        startDateTime: getDate(2024,3,22, 14,0,0), //could be improved with tomorrow()
+        endDateTime: getDate(2024,3,23, 14,0,0),
+        deliveryDetailsPageOptions: {
+            deliveryOption: DeliverOption.DEFAULT,
+            deliveryDetails: {
+                selfPickupLocation: "asd",
+            }
+        },
+        addonPageOptions: {
+            insurance: AddOnInsurance.COMPREHENSIVE,
+            secondaryDriver: AddOnSecondaryDriver.WITHOUT
+        },
+        paymentPageOptions: {
 
-        
+        }
+    },
+    {
+        testCase: "SW-36",
+        carId: 17,
+        isIncluded: true,
+        isHappyPath: true,
+        rentalFeePerDay: 80,
+        startDateTime: getDate(2024,3,22, 14,0,0), //could be improved with tomorrow()
+        endDateTime: getDate(2024,3,23, 14,0,0),
+        deliveryDetailsPageOptions: {
+            deliveryOption: DeliverOption.DEFAULT,
+            deliveryDetails: {
+                selfPickupLocation: "asd",
+            }
+        },
+        addonPageOptions: {
+            insurance: AddOnInsurance.CDW,
+            secondaryDriver: AddOnSecondaryDriver.WITHOUT
+        },
+        paymentPageOptions: {
 
-
-
-    }
+        }
+    },
+    
+    //{
+    //    carId: 17,
+    //    isIncluded: true,
+    //    isHappyPath: true,
+    //    rentalFeePerDay: 80,
+    //    fromDate: {month: "March", day: 25},
+    //    endDate: {month: "March", day: 28},
+    //    startTime : "10:00:00",
+    //    endTime: "14:00:00",
+    //    deliveryDetailsPageOptions: {
+    //        deliveryOption: DeliverOption.DEFAULT,
+    //        deliveryDetails: {
+    //            selfPickupLocation: "asd",
+    //        }
+    //    },
+    //    addonPageOptions: {
+    //        insurance: AddOnInsurance.CDW,
+    //        secondaryDriver: AddOnSecondaryDriver.WITH
+    //    },
+    //    paymentPageOptions: {
+//
+    //    }
+//
+    //}
 ]
 
 

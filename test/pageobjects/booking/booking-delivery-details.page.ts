@@ -1,9 +1,12 @@
+import { RentalBreakdownPanel, RentalBreakdownPanelInstance } from "../../../common/util/components/rental-breakdown-panel.js";
 import { SelfPickupLocationMap, SelfPickupLocationMapInstance } from "../../../common/util/components/self-pickup-location-map.js";
 import { WebdriverIOElement } from "../../../common/types/wdio.js";
 import { DateTimePickerType } from "../../../common/types/enums.js";
 import { DatePicker } from "../../../common/util/components/date-picker.js";
 import { TimePicker } from "../../../common/util/components/time-picker.js";
 import { Door2DoorMap, Door2DoorMapInstance } from "../../../common/util/components/door-to-door-map.js";
+import {AddOnInsurance, AddOnSecondaryDriver, POC} from "../../../common/types/types.js";
+import {daysBetweenDates} from "../../../common/util/helper.js";
 
 class BookingDeliveryDetailsPage {
     fromDate: DatePicker;
@@ -16,6 +19,10 @@ class BookingDeliveryDetailsPage {
         this.toDate = new DatePicker(DateTimePickerType.TO)
         this.fromTime = new DatePicker(DateTimePickerType.FROM)
         this.toTime = new DatePicker(DateTimePickerType.TO)
+    }
+
+    get rentalBreakdownPanel(): RentalBreakdownPanel{
+        return RentalBreakdownPanelInstance;
     }
 
     get editSelfPickupLocationButton(): WebdriverIOElement{
@@ -47,7 +54,33 @@ class BookingDeliveryDetailsPage {
         return $('//div[@data-testid="cars-summary_return_edit-return-address_button"]');
     }
 
+    get selfPickupLocationTitle(): WebdriverIOElement{
+        //TODO
+        return $('//h4[text()="Burj Kalifa tower"]');
+    }
 
+    calculateSummary(testCase: POC) : number {
+        //WATCH OUT FOR THIS, FRAGILE!!!
+        const bookedDays = daysBetweenDates(testCase.startDateTime, testCase.endDateTime);
+        
+        const rentalPrice = testCase.rentalFeePerDay * bookedDays;
+        let CDWPrice = 0;
+        let SecondaryDriverPrice = 0;
+        if(testCase.addonPageOptions.insurance != undefined && testCase.addonPageOptions.insurance == AddOnInsurance.CDW){
+            CDWPrice = 10 * bookedDays;
+        }
+        if(testCase.addonPageOptions.secondaryDriver != undefined && testCase.addonPageOptions.secondaryDriver == AddOnSecondaryDriver.WITH){
+            SecondaryDriverPrice = 35 * bookedDays;
+        }
+
+        console.log("KALKULACIOK")
+        console.log(bookedDays);
+        console.log(rentalPrice);
+        console.log(CDWPrice);
+        console.log(SecondaryDriverPrice);
+
+        return rentalPrice + CDWPrice + SecondaryDriverPrice;
+    };
 
 }
 
