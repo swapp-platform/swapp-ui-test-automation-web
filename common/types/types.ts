@@ -158,7 +158,7 @@ export const pocCase1: POC[] = [
     {
         testCase: "SW-34",
         carId: 17,
-        isIncluded: true,
+        isIncluded: false,
         isHappyPath: true,
         rentalFeePerDay: 80,
         startDateTime: getDate(2024,3,22, 14,0,0), //could be improved with tomorrow()
@@ -180,7 +180,7 @@ export const pocCase1: POC[] = [
     {
         testCase: "SW-10",
         carId: 17,
-        isIncluded: true,
+        isIncluded: false,
         isHappyPath: true,
         rentalFeePerDay: 80,
         startDateTime: getDate(2024,3,22, 14,0,0), //could be improved with tomorrow()
@@ -202,7 +202,7 @@ export const pocCase1: POC[] = [
     {
         testCase: "SW-36",
         carId: 17,
-        isIncluded: true,
+        isIncluded: false,
         isHappyPath: true,
         rentalFeePerDay: 80,
         startDateTime: getDate(2024,3,22, 14,0,0), //could be improved with tomorrow()

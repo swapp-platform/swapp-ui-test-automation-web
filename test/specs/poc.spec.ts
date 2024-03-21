@@ -2,20 +2,26 @@ import { EnvironmentVariables } from '../../config/environment-variables.js';
 
 import {API} from '../../common/api/api.js';
 import { CarCard } from '../../common/util/components/car-card.js';
+import HomePage from '../pageobjects/home.page.js';
 import CarDetailsPage from '../pageobjects/car-details.page.js';
 import BookingDeliveryDetailsPage from "../pageobjects/booking/booking-delivery-details.page.js";
 import BookingAddonsPage from "../pageobjects/booking/booking-add-ons.page.js";
 import BookingPaymentPage from "../pageobjects/booking/booking-payment.page.js";
+import BookingSuccesCheckoutPage from "../pageobjects/booking/booking-success-checkout.page.js";
+import BookingOverviewPage from "../pageobjects/booking/booking-overview.page.js";
 import {Case1, pocCase1, DeliverOption, SelfPickupDeliveryDetails, DoorToDoorDeliveryDetails, AddOnInsurance, AddOnSecondaryDriver} from "../../common/types/types.js";
 import {VisibilityObject} from "../../common/types/types.js";
 import {getFormattedDateAsString} from "../../common/util/helper.js";
+import {AssertInstance} from "../../common/util/assertions.js";
+
 
 pocCase1
     .filter( (testCase) => testCase.isIncluded == true)
     .forEach( (testCase) => {
     var car:CarCard;
+    var bookingId: string;
 
-    describe('Create the booking on USER side =>', () => {
+    describe(`TC:${testCase.testCase} Create the booking on USER side =>`, () => {
 
         beforeAll(async () => {
             await browser.url(EnvironmentVariables.joinswapp_url);
@@ -49,9 +55,6 @@ pocCase1
                         await BookingDeliveryDetailsPage.selfPickupLocationMap.confirmPickupLocation.click();
                         await browser.pause(2000);
 
-                        //await BookingDeliveryDetailsPage.selfPickupLocationMap.getLocation(details.selfPickupLocation!);
-                        //await BookingDeliveryDetailsPage.selfPickupLocationMap.confirmPickupLocation.click();
-
                         expect(await BookingDeliveryDetailsPage.selfPickupLocationTitle.getText())
                             .withContext('Self pickup location is not correct')
                             .toEqual("Burj Kalifa tower");
@@ -59,9 +62,8 @@ pocCase1
                     });
                 }
 
-                if(details.selfPickupDateTime == undefined){
+                if(details.selfPickupDateTime != undefined){
                     //change pickup time
-                    console.log("ez is mukodik")
                 }
 
                 if(details.selfPickupReturnDateTime != undefined){
@@ -91,51 +93,29 @@ pocCase1
             }
 
 
-            it('make assertions', async () => {
-
+            it('Assert data on DeliveryDetailsPage', async () => {
                 // check book period
-                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.deliveryDateTime.getText())
-                .withContext("delivery time is not correct")
-                .toEqual("Fri, Mar 22,\n 14:00");
-                //.toEqual(getFormattedDateAsString(testCase.startDateTime));
-
-                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.returnDateTime.getText())
-                .withContext("delivery time is not correct")
-                .toEqual("Sat, Mar 23,\n 14:00");
+                AssertInstance.DeliveryDetailsPage
+                .deliveryDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
+                AssertInstance.DeliveryDetailsPage
+                .returnDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.returnDateTime.getText(), testCase);
                 
-
                 // check price breakdown
-                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePeriod.getText())
-                .withContext("Rental Price period is not right!")
-                .toEqual(`AED ${testCase.rentalFeePerDay}`);
-
-                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePerDay.getText())
-                .withContext("Rental Price period is not right!")
-                .toEqual(`AED ${testCase.rentalFeePerDay} / day`);
+                AssertInstance.DeliveryDetailsPage
+                .rentalPricePeriod(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePeriod.getText(), testCase);
+                AssertInstance.DeliveryDetailsPage
+                .rentalPricePerDay(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePerDay.getText(), testCase);
 
                 // summary
-                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPriceSummary.getText())
-                .withContext("Total price is not correct!")
-                .toEqual(`AED ${testCase.rentalFeePerDay}`);
-
-                
-                
-                // check Booking period
-                    // - Delivery (Date)
-                    // - Return (Date)
-                // check Price brakdown 
-                    // - Rental period
-                        // - X/day
-                // check Summary
-                    // - Total for X days (String with number)
-                    // - Total price (Number)
+                AssertInstance.DeliveryDetailsPage
+                .rentalPriceSummary(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPriceSummary.getText(), testCase);
                 
                 await BookingDeliveryDetailsPage.continueToAddonsButton.visiblityClick();
             });
         });
 
 
-        describe('Addons Page - ', () => {
+        describe('AddonsPage => ', () => {
             if (testCase.addonPageOptions.insurance != undefined && testCase.addonPageOptions.insurance != AddOnInsurance.NOTHING){
                 it('Set insurance', async () => {
                     await BookingAddonsPage.setInsurance(testCase.addonPageOptions.insurance!);
@@ -156,7 +136,7 @@ pocCase1
             }
 
             if (testCase.addonPageOptions.insurance != undefined && testCase.addonPageOptions.insurance != AddOnInsurance.NOTHING){
-                it('Set Secondary driver', async () => {
+                it('Set Secondary driver =>' , async () => {
                     await BookingAddonsPage.setSecondaryDriver(testCase.addonPageOptions.secondaryDriver!);
                     
                     switch(testCase.addonPageOptions.secondaryDriver){
@@ -174,72 +154,40 @@ pocCase1
                 });
             }
 
-            it('make assertions', async () => {
+            it('Assert data on AddonsPage =>', async () => {
+                AssertInstance.AddonsPage
+                .deliveryDateTime(await BookingAddonsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
+                AssertInstance.AddonsPage
+                .returnDateTime(await BookingAddonsPage.rentalBreakdownPanel.returnDateTime.getText(), testCase);
+                AssertInstance.AddonsPage
+                .rentalPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.rentalPricePeriod.getText(), testCase);
+                AssertInstance.AddonsPage
+                .rentalPricePerDay(await BookingAddonsPage.rentalBreakdownPanel.rentalPricePerDay.getText(), testCase);
 
-                // check book period
-                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.deliveryDateTime.getText())
-                .withContext("delivery time is not correct")
-                .toEqual("Fri, Mar 22,\n 14:00");
 
-                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.returnDateTime.getText())
-                .withContext("delivery time is not correct")
-                .toEqual("Sat, Mar 23,\n 14:00");
-                
-
-                // check price breakdown
-                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePeriod.getText())
-                .withContext("Rental Price period is not right!")
-                .toEqual(`AED ${testCase.rentalFeePerDay}`);
-
-                expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePerDay.getText())
-                .withContext("Rental Price period is not right!")
-                .toEqual(`AED ${testCase.rentalFeePerDay} / day`);
-
-                await browser.pause(10000);
+                await browser.pause(5000);
                 if(testCase.addonPageOptions.insurance != undefined && testCase.addonPageOptions.insurance == AddOnInsurance.CDW){
-                    console.log("await BookingDeliveryDetailsPage.rentalBreakdownPanel.CDWPricePeriod.getText(");
-                    console.log(await BookingDeliveryDetailsPage.rentalBreakdownPanel.CDWPricePeriod.getText());
-                    expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.CDWPricePeriod.getText())
-                    .withContext("CDW PRICE IS NOT CORRECT")
-                    .toEqual(`AED 10`);
-                    //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
-
-                    expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.CDWPricePerDay.getText())
-                    .withContext("CDW PRICE PER DAY IS NOT CORRECT")
-                    .toEqual(`AED 10 / day`);
+                    AssertInstance.AddonsPage
+                    .CDWPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.CDWPricePeriod.getText(), testCase);
+    
+                    AssertInstance.AddonsPage
+                    .CDWPricePerDay(await BookingAddonsPage.rentalBreakdownPanel.CDWPricePerDay.getText(), testCase);
                 }
 
                 
                 if(testCase.addonPageOptions.secondaryDriver != undefined && testCase.addonPageOptions.secondaryDriver == AddOnSecondaryDriver.WITH){
-                    expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.secondaryDriverPricePeriod.getText())
-                    .withContext("Secondary driver price IS NOT CORRECT")
-                    .toEqual(`AED 35`);
-                    //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
+                    AssertInstance.AddonsPage
+                    .secondaryDriverPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.secondaryDriverPricePeriod.getText(), testCase);
 
-                    expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.secondaryDriverPricePerDay.getText())
-                    .withContext("Secondary driver PRICE PER DAY IS NOT CORRECT")
-                    .toEqual(`AED 35 / day`);
+                    AssertInstance.AddonsPage
+                    .secondaryDriverPricePerDay(await BookingAddonsPage.rentalBreakdownPanel.secondaryDriverPricePerDay.getText(), testCase);
+
                 }
 
                 // summary
                 expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPriceSummary.getText())
                 .withContext("Total price is not correct!")
                 .toEqual(`AED ${BookingDeliveryDetailsPage.calculateSummary(testCase)}`);
-                
-                //await BookingAddonsPage.continueToPaymentButton.click();
-                // check Booking period
-                    // - Delivery (Date)
-                    // - Return (Date)
-                // check Price brakdown 
-                    // - Rental period
-                        // - X/day
-                    // - Insurance          <-----
-                        // - X/day          <-----
-                    // - Secondary driver   <-----
-                        // - X/day          <-----
-                // check Summary
-                    // - Total for X days (String with number)
-                    // - Total price (Number)
 
 
                 await BookingAddonsPage.continueToPaymentButton.visiblityClick();
@@ -247,7 +195,7 @@ pocCase1
         });
 
         // this needs some happyness checking as well
-        it('Payment details Page - ', async () => {
+        it('PaymentDetailsPage => ', async () => {
             if (testCase.paymentPageOptions.cardDetails != undefined){
                // set custom payment details 
                // Note: What if user already has card details filled out? 
@@ -259,28 +207,79 @@ pocCase1
 
             }
 
+
+            await BookingPaymentPage.bookCarButton.visiblityClick();
+
+            await browser.pause(5000); // wait for redirect
+
+            //expect(browser.getUrl())
+            //.withContext("NOT REDIRECTED")
+            //.toContain("/success-checkout/")
+            //.toEqual(`${EnvironmentVariables.joinswapp_url}/en-DXB/${testCase.city}/booking/{some regex check?}}/success-checkout/`)
+
+            await BookingSuccesCheckoutPage.checkYourBookingButton.visiblityClick();
+
         });
 
         // if testase is happyPath
         it('Check confirmation screen - ', async () => {
-                // Self Pickup
-                    // - date
-                    // - location (save it when selecting)
+            bookingId = await BookingOverviewPage.bookingId.getText();
 
-                // Return 
-                    // - Date
-                    // - location
+            if(testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DEFAULT || testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.SELF_PICKUP){
+                const details = testCase.deliveryDetailsPageOptions.deliveryDetails as SelfPickupDeliveryDetails;
+                await BookingOverviewPage.selfPickupReturnDate.scrollIntoView({ block: 'center', inline: 'center' });
+                AssertInstance.OverviewPage
+                .selfPickupDate(await BookingOverviewPage.selfPickupDate.getText(), testCase);
 
-                // Supplier opening hours
+                AssertInstance.OverviewPage
+                .selfPickupTime(await BookingOverviewPage.selfPickupTime.getText(), testCase);
+
+                AssertInstance.OverviewPage
+                .selfPickupReturnDate(await BookingOverviewPage.selfPickupReturnDate.getText(), testCase);
+
+                AssertInstance.OverviewPage
+                .selfPickupReturnTime(await BookingOverviewPage.selfPickupReturnTime.getText(), testCase);
+
+            } 
+            else if(testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DOOR_TO_DOOR){
+                const details = testCase.deliveryDetailsPageOptions.deliveryDetails as DoorToDoorDeliveryDetails;
+               
+            }
+
+            //TODO PAYMENT ELLENŐRZÉS
 
 
-                // Payment details
-                    // Price breakdown
         });
 
         it('Check banner on home screen - ', async () => {
+                await HomePage.goTo();
+                await browser.pause(10000);
+                AssertInstance.OverviewPage
+                .selfPickupDate(await HomePage.bookingSwiperSlide.handOverDate.getText(), testCase);
 
+                AssertInstance.OverviewPage
+                .selfPickupReturnDate(await HomePage.bookingSwiperSlide.handBackDate.getText(), testCase);
+
+                AssertInstance.OverviewPage
+                .selfPickupTime(await HomePage.bookingSwiperSlide.handOverTime.getText(), testCase);
         });
+
+        it('Check user/rental - ', async () => {
+            await HomePage.rentalsNavMenu.visiblityClick();
+
+            await $('//h4[@data-testid="rental_profile_myrentals-upcoming-tab"]').click();
+
+            expect(await $(`//span[text()="${bookingId}"]//..//..//..//..//div`))
+            .toBeDisplayed();
+
+            (await $(`//span[text()="${bookingId}"]//..//..//..//..//div`)).visiblityClick();
+
+            browser.pause(10000);
+
+
+    });
+
+
 
 
         it('Check admin - ', async () => {
