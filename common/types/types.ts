@@ -230,9 +230,9 @@ export const pocCase1: POC[] = [
         startDateTime: getDate(2024,3,23, 14,0,0), //could be improved with tomorrow()
         endDateTime: getDate(2024,3,24, 14,0,0),
         deliveryDetailsPageOptions: {
-            deliveryOption: DeliverOption.DOOR_TO_DOOR,
+            deliveryOption: DeliverOption.SELF_PICKUP,
             deliveryDetails: {
-                doorToDoorLocation: "Burj k",
+                selfPickupLocation: "asd",
             }
         },
         addonPageOptions: {

@@ -8,7 +8,9 @@ class BookingPaymentPage {
     }
     
     get bookCarButton(): WebdriverIOElement{
-        return $('//button[@data-testid="cars_summary_desktop-car-price-break-down_continue-button"]');
+        //TODO mobil
+        //return $('//button[@data-testid="cars_summary_desktop-car-price-break-down_continue-button"]');
+        return $('//button[contains(text(),"Book car")]');
     }
 
 }

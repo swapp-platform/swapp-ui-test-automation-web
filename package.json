@@ -14,11 +14,13 @@
     "typescript": "^5.3.3",
     "wdio-chromedriver-service": "^8.1.1",
     "wdio-eslinter-service": "^0.0.4",
-    "wdio-vscode-service": "^6.0.3"
+    "wdio-vscode-service": "^6.0.3",
+    "allure-commandline": "^2.24.1"
   },
   "scripts": {
     "wdio": "wdio run ./wdio.conf.ts",
-    "test": "NODE_ENV=development wdio config/wdio-desktop-config.ts"
+    "test": "NODE_ENV=development wdio config/wdio-desktop-config.ts",
+    "generate-report": "allure generate result --clean && allure open"
   },
   "dependencies": {
     "chromedriver": "^122.0.4",

@@ -21,6 +21,7 @@ class CarDetailsPage {
     }
 
     get continueToBookingButton(): WebdriverIOElement{
+        //TODO
         return $("//button[text()='Continue to booking']");
     }
 
