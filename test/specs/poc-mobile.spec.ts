@@ -242,7 +242,7 @@ pocCase1
             }
 
             if (testCase.paymentPageOptions.billingDetails != undefined){
-               // set custom payment details
+                // set custom payment details
                 // Note: What if user already has billing details filled out? 
 
             }
