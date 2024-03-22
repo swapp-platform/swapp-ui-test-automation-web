@@ -5,7 +5,7 @@ import { DateTimePickerType } from "../../../common/types/enums.js";
 import { DatePicker } from "../../../common/util/components/date-picker.js";
 import { TimePicker } from "../../../common/util/components/time-picker.js";
 import { Door2DoorMap, Door2DoorMapInstance } from "../../../common/util/components/door-to-door-map.js";
-import {AddOnInsurance, AddOnSecondaryDriver, POC} from "../../../common/types/types.js";
+import {AddOnInsurance, AddOnSecondaryDriver, DeliverOption, POC} from "../../../common/types/types.js";
 import {daysBetweenDates} from "../../../common/util/helper.js";
 
 class BookingDeliveryDetailsPage {
@@ -59,6 +59,15 @@ class BookingDeliveryDetailsPage {
         return $('//h4[text()="Burj Kalifa tower"]');
     }
 
+    get doorToDoorDeliveryLocationTitle(): WebdriverIOElement{
+        //TODO
+        return $('(//h4[text()="Burj Khalifa - Sheikh Mohammed bin Rashid Boulevard"])[1]')
+    }
+
+    get doorToDoorReturnLocationTitle(): WebdriverIOElement{
+        return $('(//h4[text()="Burj Khalifa - Sheikh Mohammed bin Rashid Boulevard"])[2]')
+    }
+
     calculateSummary(testCase: POC) : number {
         //WATCH OUT FOR THIS, FRAGILE!!!
         const bookedDays = daysBetweenDates(testCase.startDateTime, testCase.endDateTime);
@@ -66,6 +75,7 @@ class BookingDeliveryDetailsPage {
         const rentalPrice = testCase.rentalFeePerDay * bookedDays;
         let CDWPrice = 0;
         let SecondaryDriverPrice = 0;
+        let doorToDoorPrice = testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DOOR_TO_DOOR ? 10 : 0;
         if(testCase.addonPageOptions.insurance != undefined && testCase.addonPageOptions.insurance == AddOnInsurance.CDW){
             CDWPrice = 10 * bookedDays;
         }
@@ -78,8 +88,9 @@ class BookingDeliveryDetailsPage {
         console.log(rentalPrice);
         console.log(CDWPrice);
         console.log(SecondaryDriverPrice);
+        console.log(doorToDoorPrice);
 
-        return rentalPrice + CDWPrice + SecondaryDriverPrice;
+        return rentalPrice + CDWPrice + SecondaryDriverPrice + doorToDoorPrice;
     };
 
 }

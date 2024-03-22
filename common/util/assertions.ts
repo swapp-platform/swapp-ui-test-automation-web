@@ -16,16 +16,35 @@ class Functions{
     deliveryDateTime = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         expect(text)
         .withContext("delivery time is not correct")
-        .toEqual("Fri, Mar 22,\n 14:00");
+        .toEqual("Sat, Mar 23,\n 14:00");
         //.toEqual(getFormattedDateAsString(testCase.startDateTime));
     }
+    doorToDoorDeliveryDateTime= async (text: String, testCase: POC) : (Promise<void>) =>{ 
+        expect(text)
+        .withContext("delivery time is not correct")
+        .toEqual("Sat, Mar 23,\n 14:00 - 16:00");
+        //.toEqual(getFormattedDateAsString(testCase.startDateTime));
+    }
+    
 
     returnDateTime = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         console.log("returnDateTime expect");
         console.log(text);
         expect(text)
         .withContext("return time is not correct")
-        .toEqual("Sat, Mar 23,\n 14:00");
+        .toEqual("Sun, Mar 24,\n 14:00");
+    }
+    doorToDoorReturnDateTime= async (text: String, testCase: POC) : (Promise<void>) =>{ 
+        expect(text)
+        .withContext("Door to door Return date time is not correct")
+        .toEqual("Sun, Mar 24,\n 14:00 - 16:00");
+        //.toEqual(getFormattedDateAsString(testCase.startDateTime));
+    }
+    doorToDoorDeliveryPrice = async (text: String, testCase: POC) : (Promise<void>) =>{ 
+        expect(text)
+        .withContext("Door to door Return date time is not correct")
+        .toEqual("AED 10");
+        //.toEqual(getFormattedDateAsString(testCase.startDateTime));
     }
     rentalPricePeriod = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         expect(text)
@@ -69,7 +88,7 @@ class Functions{
     selfPickupDate = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         expect(text)
         .withContext("Self Pickup Delivery Date is not correct!")
-        .toEqual("Fri, Mar 22");
+        .toEqual("Sat, Mar 23");
         //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
     }
     selfPickupTime = async (text: String, testCase: POC) : (Promise<void>) =>{ 
@@ -81,7 +100,7 @@ class Functions{
     selfPickupReturnDate = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         expect(text)
         .withContext("Self Pickup Delivery Date is not correct!")
-        .toEqual("Sat, Mar 23");
+        .toEqual("Sun, Mar 24");
         //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
     }
     selfPickupReturnTime = async (text: String, testCase: POC) : (Promise<void>) =>{ 
@@ -119,10 +138,14 @@ export class Assert{
     
     public DeliveryDetailsPage = new class {
         deliveryDateTime = Functionss.deliveryDateTime;
+        doorToDoorDeliveryDateTime = Functionss.doorToDoorDeliveryDateTime;
+        doorToDoorReturnDateTime = Functionss.doorToDoorReturnDateTime;
+        doorToDoorDeliveryPrice = Functionss.doorToDoorDeliveryPrice;
         returnDateTime = Functionss.returnDateTime;
         rentalPricePeriod = Functionss.rentalPricePeriod;
         rentalPricePerDay = Functionss.rentalPricePerDay;
         rentalPriceSummary = Functionss.rentalPriceSummary;
+
     }
 
     public AddonsPage = new class {
@@ -131,6 +154,7 @@ export class Assert{
         rentalPricePeriod = Functionss.rentalPricePeriod;
         rentalPricePerDay = Functionss.rentalPricePerDay;
         rentalPriceSummary = Functionss.rentalPriceSummary;
+        doorToDoorDeliveryPrice = Functionss.doorToDoorDeliveryPrice;
         CDWPricePeriod = Functionss.CDWPricePeriod;
         CDWPricePerDay = Functionss.CDWPricePerDay;
         secondaryDriverPricePeriod = Functionss.secondaryDriverPricePeriod;

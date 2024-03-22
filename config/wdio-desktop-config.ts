@@ -65,9 +65,10 @@ export const config: WebdriverIO.Config = {
     //allureReporter.addEnvironment('specs', EnvironmentVariables.configSpecs);
   },
   beforeTest: async function (test) {
+    
     console.log(test.fullName);
-     await browser.maximizeWindow();
-    //await browser.setWindowSize(1440, 1200);
+     //await browser.maximizeWindow();
+    await browser.setWindowSize(390, 844);
   },
   afterTest: async function (test, context, { error }) {
     if (error !== undefined) {

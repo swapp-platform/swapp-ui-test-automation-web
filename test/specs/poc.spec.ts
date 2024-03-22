@@ -76,7 +76,21 @@ pocCase1
             else if(testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DOOR_TO_DOOR){
                 const details = testCase.deliveryDetailsPageOptions.deliveryDetails as DoorToDoorDeliveryDetails;
                 if(details.doorToDoorLocation!= undefined){
-                    //change location
+
+
+                    it('Change location', async () => {
+                        await BookingDeliveryDetailsPage.editDoor2DoorLocationDeliveryButton.click();
+                        await BookingDeliveryDetailsPage.door2DoorMap.addressInput.click();
+                        await BookingDeliveryDetailsPage.door2DoorMap.addressInput.setValue(details!.doorToDoorLocation!.toString());
+                        await BookingDeliveryDetailsPage.door2DoorMap.selectAddressSuggestion(1).visiblityClick();
+                        await BookingDeliveryDetailsPage.door2DoorMap.confirmAddressButton.visiblityClick();
+                        await BookingDeliveryDetailsPage.door2DoorMap.saveDeliveryAddressButton.visiblityClick();
+
+                        expect(await BookingDeliveryDetailsPage.doorToDoorDeliveryLocationTitle.getText())
+                            .withContext('Self pickup location is not correct')
+                            .toEqual("Burj Khalifa - Sheikh Mohammed bin Rashid Boulevard");
+
+                    });
                 }
 
                 if(details.doorToDoorDateTime != undefined){
@@ -95,16 +109,32 @@ pocCase1
 
             it('Assert data on DeliveryDetailsPage', async () => {
                 // check book period
-                AssertInstance.DeliveryDetailsPage
-                .deliveryDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
-                AssertInstance.DeliveryDetailsPage
-                .returnDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.returnDateTime.getText(), testCase);
-                
+                const option: DeliverOption = testCase.deliveryDetailsPageOptions.deliveryOption;
+                if(option == DeliverOption.SELF_PICKUP){
+                    AssertInstance.DeliveryDetailsPage
+                    .deliveryDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
+
+                    AssertInstance.DeliveryDetailsPage
+                    .returnDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.returnDateTime.getText(), testCase);
+                } else if (option == DeliverOption.DOOR_TO_DOOR){
+                    AssertInstance.DeliveryDetailsPage
+                    .doorToDoorDeliveryDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
+                    
+                    AssertInstance.DeliveryDetailsPage
+                    .doorToDoorReturnDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.returnDateTime.getText(), testCase);
+                }
+
+
                 // check price breakdown
                 AssertInstance.DeliveryDetailsPage
                 .rentalPricePeriod(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePeriod.getText(), testCase);
                 AssertInstance.DeliveryDetailsPage
                 .rentalPricePerDay(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePerDay.getText(), testCase);
+
+                if(option == DeliverOption.DOOR_TO_DOOR){
+                    AssertInstance.DeliveryDetailsPage
+                    .doorToDoorDeliveryPrice(await BookingDeliveryDetailsPage.rentalBreakdownPanel.doorToDoorDelivery.getText(), testCase);
+                }
 
                 // summary
                 AssertInstance.DeliveryDetailsPage
@@ -155,6 +185,8 @@ pocCase1
             }
 
             it('Assert data on AddonsPage =>', async () => {
+                const option: DeliverOption = testCase.deliveryDetailsPageOptions.deliveryOption;
+
                 AssertInstance.AddonsPage
                 .deliveryDateTime(await BookingAddonsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
                 AssertInstance.AddonsPage
@@ -181,7 +213,11 @@ pocCase1
 
                     AssertInstance.AddonsPage
                     .secondaryDriverPricePerDay(await BookingAddonsPage.rentalBreakdownPanel.secondaryDriverPricePerDay.getText(), testCase);
+                }
 
+                if(option == DeliverOption.DOOR_TO_DOOR){
+                    AssertInstance.AddonsPage
+                    .doorToDoorDeliveryPrice(await BookingDeliveryDetailsPage.rentalBreakdownPanel.doorToDoorDelivery.getText(), testCase);
                 }
 
                 // summary
