@@ -109,8 +109,10 @@ pocCase1
 
             it('Assert data on DeliveryDetailsPage', async () => {
                 // check book period
+                console.log("itt vagyok");
                 const option: DeliverOption = testCase.deliveryDetailsPageOptions.deliveryOption;
                 if(option == DeliverOption.SELF_PICKUP){
+                    console.log("itt checkolok");
                     AssertInstance.DeliveryDetailsPage
                     .deliveryDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
 
@@ -200,19 +202,19 @@ pocCase1
                 await browser.pause(5000);
                 if(testCase.addonPageOptions.insurance != undefined && testCase.addonPageOptions.insurance == AddOnInsurance.CDW){
                     AssertInstance.AddonsPage
-                    .CDWPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.CDWPricePeriod.getText(), testCase);
+                    .CDWPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.CDWPricePeriod(false).getText(), testCase);
     
                     AssertInstance.AddonsPage
-                    .CDWPricePerDay(await BookingAddonsPage.rentalBreakdownPanel.CDWPricePerDay.getText(), testCase);
+                    .CDWPricePerDay(await BookingAddonsPage.rentalBreakdownPanel.CDWPricePerDay(false).getText(), testCase);
                 }
 
                 
                 if(testCase.addonPageOptions.secondaryDriver != undefined && testCase.addonPageOptions.secondaryDriver == AddOnSecondaryDriver.WITH){
                     AssertInstance.AddonsPage
-                    .secondaryDriverPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.secondaryDriverPricePeriod.getText(), testCase);
+                    .secondaryDriverPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.secondaryDriverPricePeriod(false).getText(), testCase);
 
                     AssertInstance.AddonsPage
-                    .secondaryDriverPricePerDay(await BookingAddonsPage.rentalBreakdownPanel.secondaryDriverPricePerDay.getText(), testCase);
+                    .secondaryDriverPricePerDay(await BookingAddonsPage.rentalBreakdownPanel.secondaryDriverPricePerDay(false).getText(), testCase);
                 }
 
                 if(option == DeliverOption.DOOR_TO_DOOR){

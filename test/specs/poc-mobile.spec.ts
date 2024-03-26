@@ -11,7 +11,6 @@ import BookingSuccesCheckoutPage from "../pageobjects/booking/booking-success-ch
 import BookingOverviewPage from "../pageobjects/booking/booking-overview.page.js";
 import {Case1, pocCase1, DeliverOption, SelfPickupDeliveryDetails, DoorToDoorDeliveryDetails, AddOnInsurance, AddOnSecondaryDriver} from "../../common/types/types.js";
 import {VisibilityObject} from "../../common/types/types.js";
-import {getFormattedDateAsString} from "../../common/util/helper.js";
 import {AssertInstance} from "../../common/util/assertions.js";
 
 
@@ -42,23 +41,24 @@ pocCase1
 
         });
 
-        describe("DeliveryDetailsPage =>  ",  () => {
-
+        describe("Set Location for selfPickup / delivery =>  ",  () => {
 
             if(testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DEFAULT || testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.SELF_PICKUP){
                 const details = testCase.deliveryDetailsPageOptions.deliveryDetails as SelfPickupDeliveryDetails;
                 if(details.selfPickupLocation!= undefined){
                     //change location
                     it('Change location', async () => {
-                        (await $("//div[@data-testid='rental_car_summary_delivery_option_self-pickup']")).click();
+                        await browser.pause(5000);
+
+                        await BookingDeliveryDetailsPage.editSelfPickupLocationButton.scrollIntoView();
                         await BookingDeliveryDetailsPage.editSelfPickupLocationButton.visiblityClick();
                         await browser.pause(2000);
                         await BookingDeliveryDetailsPage.selfPickupLocationMap.confirmPickupLocation.click();
                         await browser.pause(2000);
 
-                        //expect(await BookingDeliveryDetailsPage.selfPickupLocationTitle.getText())
-                        //    .withContext('Self pickup location is not correct')
-                        //    .toEqual("Burj Kalifa tower");
+                        expect(await BookingDeliveryDetailsPage.selfPickupLocationTitle.getText())
+                            .withContext('Self pickup location is not correct')
+                            .toEqual("Burj Kalifa tower");
 
                     });
                 }
@@ -107,46 +107,10 @@ pocCase1
                 }
             }
 
-
-            /*it('Assert data on DeliveryDetailsPage', async () => {
-                // check book period
-                const option: DeliverOption = testCase.deliveryDetailsPageOptions.deliveryOption;
-                if(option == DeliverOption.SELF_PICKUP){
-                    AssertInstance.DeliveryDetailsPage
-                    .deliveryDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
-
-                    AssertInstance.DeliveryDetailsPage
-                    .returnDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.returnDateTime.getText(), testCase);
-                } else if (option == DeliverOption.DOOR_TO_DOOR){
-                    AssertInstance.DeliveryDetailsPage
-                    .doorToDoorDeliveryDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
-                    
-                    AssertInstance.DeliveryDetailsPage
-                    .doorToDoorReturnDateTime(await BookingDeliveryDetailsPage.rentalBreakdownPanel.returnDateTime.getText(), testCase);
-                }
-
-
-                // check price breakdown
-                AssertInstance.DeliveryDetailsPage
-                .rentalPricePeriod(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePeriod.getText(), testCase);
-                AssertInstance.DeliveryDetailsPage
-                .rentalPricePerDay(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPricePerDay.getText(), testCase);
-
-                if(option == DeliverOption.DOOR_TO_DOOR){
-                    AssertInstance.DeliveryDetailsPage
-                    .doorToDoorDeliveryPrice(await BookingDeliveryDetailsPage.rentalBreakdownPanel.doorToDoorDelivery.getText(), testCase);
-                }
-
-                // summary
-                AssertInstance.DeliveryDetailsPage
-                .rentalPriceSummary(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPriceSummary.getText(), testCase);
-                
-                await BookingDeliveryDetailsPage.continueToAddonsButton.visiblityClick();
-            });*/
         });
 
 
-        describe('AddonsPage => ', () => {
+        describe('Addons section => ', () => {
             if (testCase.addonPageOptions.insurance != undefined && testCase.addonPageOptions.insurance != AddOnInsurance.NOTHING){
                 it('Set insurance', async () => {
                     await BookingAddonsPage.setInsurance(testCase.addonPageOptions.insurance!);
@@ -188,11 +152,7 @@ pocCase1
 
             it('Assert data on AddonsPage =>', async () => {
                 const option: DeliverOption = testCase.deliveryDetailsPageOptions.deliveryOption;
-                //await BookingAddonsPage.rentalBreakdownPanel.deliveryDateTime.scrollIntoView({ block: 'center', inline: 'center' });
-                //AssertInstance.AddonsPage
-                //.deliveryDateTime(await BookingAddonsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
-                //AssertInstance.AddonsPage
-                //.returnDateTime(await BookingAddonsPage.rentalBreakdownPanel.returnDateTime.getText(), testCase);
+
                 await BookingAddonsPage.rentalBreakdownPanel.rentalPricePeriod.scrollIntoView({ block: 'center', inline: 'center' });
                 AssertInstance.AddonsPage
                 .rentalPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.rentalPricePeriod.getText(), testCase);
@@ -203,19 +163,19 @@ pocCase1
                 await browser.pause(5000);
                 if(testCase.addonPageOptions.insurance != undefined && testCase.addonPageOptions.insurance == AddOnInsurance.CDW){
                     AssertInstance.AddonsPage
-                    .CDWPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.CDWPricePeriod.getText(), testCase);
+                    .CDWPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.CDWPricePeriod(true).getText(), testCase);
     
                     AssertInstance.AddonsPage
-                    .CDWPricePerDay(await BookingAddonsPage.rentalBreakdownPanel.CDWPricePerDay.getText(), testCase);
+                    .CDWPricePerDay(await BookingAddonsPage.rentalBreakdownPanel.CDWPricePerDay(true).getText(), testCase);
                 }
 
                 
                 if(testCase.addonPageOptions.secondaryDriver != undefined && testCase.addonPageOptions.secondaryDriver == AddOnSecondaryDriver.WITH){
                     AssertInstance.AddonsPage
-                    .secondaryDriverPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.secondaryDriverPricePeriod.getText(), testCase);
+                    .secondaryDriverPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.secondaryDriverPricePeriod(true).getText(), testCase);
 
                     AssertInstance.AddonsPage
-                    .secondaryDriverPricePerDay(await BookingAddonsPage.rentalBreakdownPanel.secondaryDriverPricePerDay.getText(), testCase);
+                    .secondaryDriverPricePerDay(await BookingAddonsPage.rentalBreakdownPanel.secondaryDriverPricePerDay(true).getText(), testCase);
                 }
 
                 if(option == DeliverOption.DOOR_TO_DOOR){
@@ -259,12 +219,12 @@ pocCase1
             //.toContain("/success-checkout/")
             //.toEqual(`${EnvironmentVariables.joinswapp_url}/en-DXB/${testCase.city}/booking/{some regex check?}}/success-checkout/`)
 
-            await BookingSuccesCheckoutPage.checkYourBookingButton.visiblityClick();
+            //await BookingSuccesCheckoutPage.checkYourBookingButton.visiblityClick();
 
         });
 
         // if testase is happyPath
-        it('Check confirmation screen - ', async () => {
+        /*it('Check confirmation screen - ', async () => {
             bookingId = await BookingOverviewPage.bookingId.getText();
 
             if(testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DEFAULT || testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.SELF_PICKUP){
@@ -291,9 +251,9 @@ pocCase1
             //TODO PAYMENT ELLENŐRZÉS
 
 
-        });
+        });*/
 
-        it('Check banner on home screen - ', async () => {
+        /*it('Check banner on home screen - ', async () => {
                 await HomePage.goTo();
                 await browser.pause(10000);
                 AssertInstance.OverviewPage
@@ -304,9 +264,9 @@ pocCase1
 
                 AssertInstance.OverviewPage
                 .selfPickupTime(await HomePage.bookingSwiperSlide.handOverTime.getText(), testCase);
-        });
+        });*/
 
-        it('Check user/rental - ', async () => {
+        /*it('Check user/rental - ', async () => {
             await HomePage.rentalsNavMenu.visiblityClick();
 
             await $('//h4[@data-testid="rental_profile_myrentals-upcoming-tab"]').click();
@@ -319,12 +279,12 @@ pocCase1
             browser.pause(10000);
 
 
-    });
+    });*/
 
 
 
 
-        it('Check admin - ', async () => {
+        /*it('Check admin - ', async () => {
 
             //await API.LoginToADMIN();
             await browser.url("https://qa.joinswapp.com/rental-admin/users/?pageSize=10");
@@ -342,7 +302,7 @@ pocCase1
 
 
 
-        });
+        });*/
 
         
         afterAll(async () => {

@@ -21,6 +21,10 @@ class BookingDeliveryDetailsPage {
         this.toTime = new DatePicker(DateTimePickerType.TO)
     }
 
+    get selfPickupTitle(): WebdriverIOElement{
+        return $(`//h1[text()='Self pickup']`);
+    }
+
     get rentalBreakdownPanel(): RentalBreakdownPanel{
         return RentalBreakdownPanelInstance;
     }

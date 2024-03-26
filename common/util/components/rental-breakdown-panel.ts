@@ -36,23 +36,28 @@ export class RentalBreakdownPanel{
         //TODO datatestid szolgáltatásnak megfelelően (door-to-door, rental period...)
     }
 
-    get secondaryDriverPricePeriod(): WebdriverIOElement{
-        return $(`//h4[text()='Price breakdown']//parent::div//p[text()='Secondary driver']//following-sibling::h4`);
+    secondaryDriverPricePeriod(isMobile: boolean): WebdriverIOElement{
+        if (isMobile)  return $(`//h1[text()='Price breakdown']//parent::div//p[text()='Secondary driver']//following-sibling::h4`);
         //TODO datatestid szolgáltatásnak megfelelően (door-to-door, rental period...)
+        return $(`//h4[text()='Price breakdown']//parent::div//p[text()='Secondary driver']//following-sibling::h4`);
     }
 
-    get secondaryDriverPricePerDay(): WebdriverIOElement{
+    secondaryDriverPricePerDay(isMobile: boolean): WebdriverIOElement{
         // TODO 
+        if (isMobile)  return $(`(//h1[text()='Price breakdown']//parent::div//p[text()='Secondary driver']//following-sibling::h4//..//../p)[2]`);
         return $(`(//h4[text()='Price breakdown']//parent::div//p[text()='Secondary driver']//following-sibling::h4//..//../p)[2]`);
     }
 
-    get CDWPricePeriod(): WebdriverIOElement{
+    CDWPricePeriod(isMobile: boolean): WebdriverIOElement{
+        if (isMobile)  return $(`//h1[text()='Price breakdown']//parent::div//p[text()='CDW']//following-sibling::h4`); 
         return $(`//h4[text()='Price breakdown']//parent::div//p[text()='CDW']//following-sibling::h4`);
         //TODO datatestid szolgáltatásnak megfelelően (door-to-door, rental period...)
+        //TODO ne kelljen szétválasztani
     }
 
-    get CDWPricePerDay(): WebdriverIOElement{
+    CDWPricePerDay(isMobile: boolean): WebdriverIOElement{
         // TODO 
+        if (isMobile) return $(`(//h1[text()='Price breakdown']//parent::div//p[text()='CDW']//following-sibling::h4//..//../p)[2]`);
         return $(`(//h4[text()='Price breakdown']//parent::div//p[text()='CDW']//following-sibling::h4//..//../p)[2]`);
     }
 

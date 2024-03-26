@@ -59,6 +59,14 @@ function getDayName(date: Date): string {
     return dayNames[dayIndex];
 }
 
+export function getFormattedDayName(date: Date): String{
+    return getDayName(date).substring(0,3);
+}
+
+export function getFormattedMonthName(date: Date): String{
+    return getMonthName(date).substring(0,3);
+}
+
 function getMonthName(date: Date): string {
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const monthIndex = date.getMonth();
@@ -66,7 +74,9 @@ function getMonthName(date: Date): string {
 }
 
 
-export function getFormattedDateAsString(date: Date): string{
+
+
+export function getFormattedDateTimeAsString(date: Date): String{
     let returnString = "";
     const dayName = getDayName(date).substring(0, 3);
     const monthName = getMonthName(date).substring(0, 3);
@@ -74,9 +84,25 @@ export function getFormattedDateAsString(date: Date): string{
 
     //.toEqual("Fri, Mar 22,\n 14:00");
 
-    returnString = `${dayName}, ${monthName} ${date.getDate()}, \n ${date.getHours()-1}:${minutes}`;
-    console.log("RETURNSTRING");
-    console.log(returnString);
+    returnString = `${dayName}, ${monthName} ${date.getDate()},\n ${date.getHours()-1}:${minutes}`;
     return returnString;
+}
 
+export function getFormattedDateTimePeriodAsString(date: Date): String{
+    let returnString = "";
+    const dayName = getDayName(date).substring(0, 3);
+    const monthName = getMonthName(date).substring(0, 3);
+    const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes().toString();
+
+    //        .toEqual("Thu, Mar 26,\n 14:00 - 16:00");
+
+
+    returnString = `${dayName}, ${monthName} ${date.getDate()},\n ${date.getHours()-1}:${minutes} - ${date.getHours()+1}:${minutes}`;
+    return returnString;
+}
+
+export function getFormattedTimeAsString(date: Date): String{
+    const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes().toString();
+    const returnString = `${date.getHours()-1}:${minutes}`;
+    return returnString;
 }

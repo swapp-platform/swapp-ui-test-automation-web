@@ -46,11 +46,11 @@ class BookingAddOnsPage {
     setInsurance = async (addonInsurance: AddOnInsurance) : (Promise<void>) => {
         switch(addonInsurance) { 
             case AddOnInsurance.CDW: { 
-               await this.insuraneCDW.click();
+               await this.insuraneCDW.visiblityClick();
                break;
             } 
             case AddOnInsurance.COMPREHENSIVE: { 
-                await this.insuraneComprehensive.click();
+                await this.insuraneComprehensive.visiblityClick();
                 break;
             } 
             case AddOnInsurance.NOTHING:{
@@ -67,11 +67,11 @@ class BookingAddOnsPage {
     setSecondaryDriver = async (addonSecondaryDriver: AddOnSecondaryDriver) : (Promise<void>) => {
         switch(addonSecondaryDriver) { 
             case AddOnSecondaryDriver.WITH: { 
-               await this.withSecondaryDriver.click();
+               await this.withSecondaryDriver.visiblityClick();
                break;
             } 
             case AddOnSecondaryDriver.WITHOUT: { 
-                await this.withoutSecondaryDriver.click();
+                await this.withoutSecondaryDriver.visiblityClick();
                 break;
             } 
             default: { 

@@ -1,5 +1,6 @@
 import { POC } from "../../common/types/types";
 import { WebdriverIOElement } from "../types/wdio";
+import {getFormattedDateTimeAsString, getFormattedDayName, getFormattedMonthName, getFormattedTimeAsString, getFormattedDateTimePeriodAsString} from "../util/helper.js";
 
 class Functions{
     private static instance: Functions;
@@ -14,31 +15,42 @@ class Functions{
     }
 
     deliveryDateTime = async (text: String, testCase: POC) : (Promise<void>) =>{ 
+        console.log("deliveryDateTime");
+        console.log(text);
+        const expectedString = getFormattedDateTimeAsString(testCase.startDateTime); 
+        //const expectedString = `${getFormattedDayName(testCase.startDateTime)}, ${getFormattedMonthName(testCase.startDateTime)} ${testCase.startDateTime.getDate()},\n ${testCase.startDateTime.getHours()}:${testCase.startDateTime.getMinutes()}`;
+        console.log(expectedString);
         expect(text)
         .withContext("delivery time is not correct")
-        .toEqual("Sat, Mar 23,\n 14:00");
-        //.toEqual(getFormattedDateAsString(testCase.startDateTime));
+        .toEqual(expectedString);
+        //.toEqual("Wed, Mar 26,\n 14:00");
+        
     }
     doorToDoorDeliveryDateTime= async (text: String, testCase: POC) : (Promise<void>) =>{ 
         expect(text)
         .withContext("delivery time is not correct")
-        .toEqual("Sat, Mar 23,\n 14:00 - 16:00");
-        //.toEqual(getFormattedDateAsString(testCase.startDateTime));
+        .toEqual(getFormattedDateTimePeriodAsString(testCase.startDateTime));
+        //.toEqual("Thu, Mar 26,\n 14:00 - 16:00");
+        
     }
     
 
     returnDateTime = async (text: String, testCase: POC) : (Promise<void>) =>{ 
-        console.log("returnDateTime expect");
-        console.log(text);
+        const expectedString = getFormattedDateTimeAsString(testCase.endDateTime); 
+
+        //const expectedString = `${getFormattedDayName(testCase.endDateTime)}, ${getFormattedMonthName(testCase.endDateTime)} ${testCase.endDateTime.getDate()},\n ${testCase.endDateTime.getHours()}:${testCase.endDateTime.getMinutes()}`;
         expect(text)
         .withContext("return time is not correct")
-        .toEqual("Sun, Mar 24,\n 14:00");
+        .toEqual(expectedString);
+        //.toEqual("Wed, Mar 27,\n 14:00");
+
     }
     doorToDoorReturnDateTime= async (text: String, testCase: POC) : (Promise<void>) =>{ 
         expect(text)
         .withContext("Door to door Return date time is not correct")
-        .toEqual("Sun, Mar 24,\n 14:00 - 16:00");
-        //.toEqual(getFormattedDateAsString(testCase.startDateTime));
+        .toEqual(getFormattedDateTimePeriodAsString(testCase.endDateTime)); 
+        //.toEqual("Thu, Mar 27,\n 14:00 - 16:00");
+        
     }
     doorToDoorDeliveryPrice = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         expect(text)
@@ -86,29 +98,40 @@ class Functions{
         //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
     }
     selfPickupDate = async (text: String, testCase: POC) : (Promise<void>) =>{ 
+        const expectedString = `${getFormattedDayName(testCase.startDateTime)}, ${getFormattedMonthName(testCase.startDateTime)} ${testCase.startDateTime.getDate()}`;
         expect(text)
         .withContext("Self Pickup Delivery Date is not correct!")
-        .toEqual("Sat, Mar 23");
-        //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
+        .toEqual(expectedString);
+        //.toEqual("Wed, Mar 26");
+        
     }
     selfPickupTime = async (text: String, testCase: POC) : (Promise<void>) =>{ 
+        console.log("selfpickuptime");
+        console.log(text);
+        //const expectedString = `${testCase.startDateTime.getHours()}:${testCase.startDateTime.getMinutes()}`;
+        const expectedString = getFormattedTimeAsString(testCase.startDateTime)
+        console.log(expectedString);
         expect(text)
         .withContext("Self Pickup Delivery Date is not correct!")
-        .toEqual("14:00");
-        //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
+        .toEqual(expectedString);
+        //.toEqual("14:00");
     }
     selfPickupReturnDate = async (text: String, testCase: POC) : (Promise<void>) =>{ 
+        const expectedString = `${getFormattedDayName(testCase.endDateTime)}, ${getFormattedMonthName(testCase.endDateTime)} ${testCase.endDateTime.getDate()}`;
         expect(text)
         .withContext("Self Pickup Delivery Date is not correct!")
-        .toEqual("Sun, Mar 24");
-        //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
+        .toEqual(expectedString);
+        //.toEqual("Thu, Mar 27");
+        
     }
     selfPickupReturnTime = async (text: String, testCase: POC) : (Promise<void>) =>{ 
-        console.log(text);
+        //const expectedString = `${testCase.endDateTime.getHours()}:${testCase.endDateTime.getMinutes()}`;
+        const expectedString = getFormattedTimeAsString(testCase.endDateTime);
         expect(text)
         .withContext("Self Pickup Delivery Date is not correct!")
-        .toEqual("14:00");
-        //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
+        .toEqual(expectedString);
+        //.toEqual("14:00");
+        
     }
 
 
