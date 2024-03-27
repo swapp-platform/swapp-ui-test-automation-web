@@ -76,12 +76,12 @@ class BookingDeliveryDetailsPage {
         //WATCH OUT FOR THIS, FRAGILE!!!
         const bookedDays = daysBetweenDates(testCase.startDateTime, testCase.endDateTime);
         
-        const rentalPrice = testCase.rentalFeePerDay * bookedDays;
+        const rentalPrice = testCase.car.rentalFeePerDay * bookedDays;
         let CDWPrice = 0;
         let SecondaryDriverPrice = 0;
         let doorToDoorPrice = testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DOOR_TO_DOOR ? 10 : 0;
         if(testCase.addonPageOptions.insurance != undefined && testCase.addonPageOptions.insurance == AddOnInsurance.CDW){
-            CDWPrice = 10 * bookedDays;
+            CDWPrice = testCase.car.CDWprice * bookedDays;
         }
         if(testCase.addonPageOptions.secondaryDriver != undefined && testCase.addonPageOptions.secondaryDriver == AddOnSecondaryDriver.WITH){
             SecondaryDriverPrice = 35 * bookedDays;

@@ -31,7 +31,7 @@ pocCase1
 
 
         it('Daily HOME - select the car', async () => {
-            car = new CarCard(testCase.carId);
+            car = new CarCard(testCase.car.carId);
             await car.card.visiblityClick();
         });
 

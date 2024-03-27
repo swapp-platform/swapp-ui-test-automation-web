@@ -29,8 +29,8 @@ export type POC = {
     isIncluded: boolean;
     isHappyPath: boolean;
     testCase: string;
-    carId : number;
-    rentalFeePerDay: number;
+    car : Car;
+   // rentalFeePerDay: number;
     startDateTime: Date;
     endDateTime: Date;
     startTime?: string;
@@ -132,13 +132,31 @@ export type BillingDetails = {
     country: String
 }
 
+export type Car = {
+    carId : number,
+    rentalFeePerDay: number,
+    CDWprice: number,
+}
+
+const camaro: Car = {
+    carId : 17,
+    rentalFeePerDay : 80,
+    CDWprice: 10
+}
+
+const focus: Car = {
+    carId : 18,
+    rentalFeePerDay : 95,
+    CDWprice: 45
+}
+
 export const pocCase1: POC[] = [
     {
         testCase: "SW-38",
-        carId: 17,
-        isIncluded: false,
+        car: camaro,
+        isIncluded: true,
         isHappyPath: true,
-        rentalFeePerDay: 80,
+        //rentalFeePerDay: 80,
         startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
         endDateTime: getDate(2024,3,29, 14,0,0),
         deliveryDetailsPageOptions: {
@@ -157,10 +175,10 @@ export const pocCase1: POC[] = [
     },
     {
         testCase: "SW-34",
-        carId: 17,
-        isIncluded: false,
+        car: camaro,
+        isIncluded: true,
         isHappyPath: true,
-        rentalFeePerDay: 80,
+        //rentalFeePerDay: 80,
         startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
         endDateTime: getDate(2024,3,29, 14,0,0),
         deliveryDetailsPageOptions: {
@@ -179,10 +197,10 @@ export const pocCase1: POC[] = [
     },
     {
         testCase: "SW-10",
-        carId: 17,
-        isIncluded: false,
+        car: camaro,
+        isIncluded: true,
         isHappyPath: true,
-        rentalFeePerDay: 80,
+        //rentalFeePerDay: 80,
         startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
         endDateTime: getDate(2024,3,29, 14,0,0),
         deliveryDetailsPageOptions: {
@@ -201,10 +219,10 @@ export const pocCase1: POC[] = [
     },
     {
         testCase: "SW-36",
-        carId: 17,
-        isIncluded: false,
+        car: camaro,
+        isIncluded: true,
         isHappyPath: true,
-        rentalFeePerDay: 80,
+        //rentalFeePerDay: 80,
         startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
         endDateTime: getDate(2024,3,29, 14,0,0),
         deliveryDetailsPageOptions: {
@@ -223,10 +241,10 @@ export const pocCase1: POC[] = [
     },
     {
         testCase: "SW-174",
-        carId: 18,
-        isIncluded: false,
+        car: focus,
+        isIncluded: true,
         isHappyPath: true,
-        rentalFeePerDay: 95,
+       // rentalFeePerDay: 95,
         startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
         endDateTime: getDate(2024,3,29, 14,0,0),
         deliveryDetailsPageOptions: {
@@ -245,10 +263,10 @@ export const pocCase1: POC[] = [
     },
     {
         testCase: "SW-175",
-        carId: 18,
+        car: focus,
         isIncluded: true,
         isHappyPath: true,
-        rentalFeePerDay: 95,
+        //rentalFeePerDay: 95,
         startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
         endDateTime: getDate(2024,3,29, 14,0,0),
         deliveryDetailsPageOptions: {
@@ -267,10 +285,10 @@ export const pocCase1: POC[] = [
     },
     {
         testCase: "SW-177",
-        carId: 18,
+        car: focus,
         isIncluded: true,
         isHappyPath: true,
-        rentalFeePerDay: 95,
+        //rentalFeePerDay: 95,
         startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
         endDateTime: getDate(2024,3,29, 14,0,0),
         deliveryDetailsPageOptions: {
@@ -282,6 +300,28 @@ export const pocCase1: POC[] = [
         addonPageOptions: {
             insurance: AddOnInsurance.CDW,
             secondaryDriver: AddOnSecondaryDriver.WITH
+        },
+        paymentPageOptions: {
+
+        }
+    },
+    {
+        testCase: "SW-176",
+        car: focus,
+        isIncluded: true,
+        isHappyPath: true,
+        //rentalFeePerDay: 95,
+        startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
+        endDateTime: getDate(2024,3,29, 14,0,0),
+        deliveryDetailsPageOptions: {
+            deliveryOption: DeliverOption.DOOR_TO_DOOR,
+            deliveryDetails: {
+                doorToDoorLocation: "Burj k",
+            }
+        },
+        addonPageOptions: {
+            insurance: AddOnInsurance.CDW,
+            secondaryDriver: AddOnSecondaryDriver.WITHOUT
         },
         paymentPageOptions: {
 

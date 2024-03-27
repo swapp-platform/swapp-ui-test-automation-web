@@ -60,19 +60,19 @@ class Functions{
     rentalPricePeriod = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         expect(text)
         .withContext("Rental Price period is not right!")
-        .toEqual(`AED ${testCase.rentalFeePerDay}`);
+        .toEqual(`AED ${testCase.car.rentalFeePerDay}`);
     }
     rentalPricePerDay = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         expect(text)
         .withContext("Rental Price period is not right!")
-        .toEqual(`AED ${testCase.rentalFeePerDay} / day`);
+        .toEqual(`AED ${testCase.car.rentalFeePerDay} / day`);
     }
     rentalPriceSummary = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         console.log("RENTAL PRICE SUMMARY");
         console.log(text);
-        console.log(`AED ${testCase.rentalFeePerDay}`);
+        console.log(`AED ${testCase.car.rentalFeePerDay}`);
         let doorToDoorPrice = testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DOOR_TO_DOOR ? 10 : 0;
-        const finalPrice = doorToDoorPrice + testCase.rentalFeePerDay
+        const finalPrice = doorToDoorPrice + testCase.car.rentalFeePerDay
         expect(text)
         .withContext("Total price is not correct!")
         .toEqual(`AED ${finalPrice}`); //multiplay with the booked days
@@ -81,13 +81,13 @@ class Functions{
     CDWPricePeriod = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         expect(text)
         .withContext("CDW PRICE IS NOT CORRECT")
-        .toEqual(`AED 10`);
+        .toEqual(`AED ${testCase.car.CDWprice}`);
         //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
     }
     CDWPricePerDay = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         expect(text)
         .withContext("CDW PRICE PER DAY IS NOT CORRECT")
-        .toEqual(`AED 10 / day`);
+        .toEqual(`AED ${testCase.car.CDWprice} / day`);
         //.toEqual(`AED ${AddOnInsurance.CDW.price}`);
     }
     secondaryDriverPricePeriod = async (text: String, testCase: POC) : (Promise<void>) =>{ 
