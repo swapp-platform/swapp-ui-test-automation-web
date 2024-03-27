@@ -136,7 +136,7 @@ export const pocCase1: POC[] = [
     {
         testCase: "SW-38",
         carId: 17,
-        isIncluded: true,
+        isIncluded: false,
         isHappyPath: true,
         rentalFeePerDay: 80,
         startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
@@ -158,7 +158,7 @@ export const pocCase1: POC[] = [
     {
         testCase: "SW-34",
         carId: 17,
-        isIncluded: true,
+        isIncluded: false,
         isHappyPath: true,
         rentalFeePerDay: 80,
         startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
@@ -180,7 +180,7 @@ export const pocCase1: POC[] = [
     {
         testCase: "SW-10",
         carId: 17,
-        isIncluded: true,
+        isIncluded: false,
         isHappyPath: true,
         rentalFeePerDay: 80,
         startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
@@ -202,7 +202,7 @@ export const pocCase1: POC[] = [
     {
         testCase: "SW-36",
         carId: 17,
-        isIncluded: true,
+        isIncluded: false,
         isHappyPath: true,
         rentalFeePerDay: 80,
         startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
@@ -224,7 +224,7 @@ export const pocCase1: POC[] = [
     {
         testCase: "SW-174",
         carId: 18,
-        isIncluded: true,
+        isIncluded: false,
         isHappyPath: true,
         rentalFeePerDay: 95,
         startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
@@ -238,6 +238,50 @@ export const pocCase1: POC[] = [
         addonPageOptions: {
             insurance: AddOnInsurance.COMPREHENSIVE,
             secondaryDriver: AddOnSecondaryDriver.WITHOUT
+        },
+        paymentPageOptions: {
+
+        }
+    },
+    {
+        testCase: "SW-175",
+        carId: 18,
+        isIncluded: true,
+        isHappyPath: true,
+        rentalFeePerDay: 95,
+        startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
+        endDateTime: getDate(2024,3,29, 14,0,0),
+        deliveryDetailsPageOptions: {
+            deliveryOption: DeliverOption.DOOR_TO_DOOR,
+            deliveryDetails: {
+                doorToDoorLocation: "Burj k",
+            }
+        },
+        addonPageOptions: {
+            insurance: AddOnInsurance.COMPREHENSIVE,
+            secondaryDriver: AddOnSecondaryDriver.WITH
+        },
+        paymentPageOptions: {
+
+        }
+    },
+    {
+        testCase: "SW-177",
+        carId: 18,
+        isIncluded: true,
+        isHappyPath: true,
+        rentalFeePerDay: 95,
+        startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
+        endDateTime: getDate(2024,3,29, 14,0,0),
+        deliveryDetailsPageOptions: {
+            deliveryOption: DeliverOption.DOOR_TO_DOOR,
+            deliveryDetails: {
+                doorToDoorLocation: "Burj k",
+            }
+        },
+        addonPageOptions: {
+            insurance: AddOnInsurance.CDW,
+            secondaryDriver: AddOnSecondaryDriver.WITH
         },
         paymentPageOptions: {
 
