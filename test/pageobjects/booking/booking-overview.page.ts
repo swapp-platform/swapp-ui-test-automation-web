@@ -22,6 +22,23 @@ class BookingOverviewPage {
         return $("//span[@data-testid='booking_booking-id']");
     }
 
+    get doorToDoorDeliveryDate(): WebdriverIOElement{
+        return $("(//h1[text()='Delivery']//following-sibling::div//h4)[1]");
+    }
+
+    get doorToDoorDeliveryTimeperiod(): WebdriverIOElement{
+        return $("(//h1[text()='Delivery']//following-sibling::div//p)[1]");
+    }
+
+    get doorToDoorReturnDate(): WebdriverIOElement{
+        return $("(//h1[text()='Return']//following-sibling::div//h4)[1]");
+    }
+
+    get doorToDoorReturnTimeperiod(): WebdriverIOElement{
+        return $("(//h1[text()='Return']//following-sibling::div//p)[2]");
+    }
+
+
 
 }
 

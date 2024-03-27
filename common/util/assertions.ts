@@ -1,6 +1,6 @@
-import { POC } from "../../common/types/types";
+import { DeliverOption, POC } from "../../common/types/types.js";
 import { WebdriverIOElement } from "../types/wdio";
-import {getFormattedDateTimeAsString, getFormattedDayName, getFormattedMonthName, getFormattedTimeAsString, getFormattedDateTimePeriodAsString} from "../util/helper.js";
+import {getFormattedDateTimeAsString, getFormattedDayName, getFormattedMonthName, getFormattedTimeAsString, getFormattedDateTimePeriodAsString, getFormattedTimePeriodAsString} from "../util/helper.js";
 
 class Functions{
     private static instance: Functions;
@@ -34,7 +34,6 @@ class Functions{
         
     }
     
-
     returnDateTime = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         const expectedString = getFormattedDateTimeAsString(testCase.endDateTime); 
 
@@ -69,10 +68,16 @@ class Functions{
         .toEqual(`AED ${testCase.rentalFeePerDay} / day`);
     }
     rentalPriceSummary = async (text: String, testCase: POC) : (Promise<void>) =>{ 
+        console.log("RENTAL PRICE SUMMARY");
+        console.log(text);
+        console.log(`AED ${testCase.rentalFeePerDay}`);
+        let doorToDoorPrice = testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DOOR_TO_DOOR ? 10 : 0;
+        const finalPrice = doorToDoorPrice + testCase.rentalFeePerDay
         expect(text)
         .withContext("Total price is not correct!")
-        .toEqual(`AED ${testCase.rentalFeePerDay}`); //multiplay with the booked days
+        .toEqual(`AED ${finalPrice}`); //multiplay with the booked days
     }
+
     CDWPricePeriod = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         expect(text)
         .withContext("CDW PRICE IS NOT CORRECT")
@@ -99,6 +104,9 @@ class Functions{
     }
     selfPickupDate = async (text: String, testCase: POC) : (Promise<void>) =>{ 
         const expectedString = `${getFormattedDayName(testCase.startDateTime)}, ${getFormattedMonthName(testCase.startDateTime)} ${testCase.startDateTime.getDate()}`;
+        console.log("FAIL ELOTT");
+        console.log(text);
+        console.log(expectedString);
         expect(text)
         .withContext("Self Pickup Delivery Date is not correct!")
         .toEqual(expectedString);
@@ -133,7 +141,17 @@ class Functions{
         //.toEqual("14:00");
         
     }
-
+    doorToDoorDeliveryTimePeriod = async (text: String, testCase: POC) : (Promise<void>) =>{ 
+        console.log("doorToDoorDeliveryTimePeriod");
+        console.log(text);
+        const expectedString = getFormattedTimePeriodAsString(testCase.startDateTime);
+        console.log(expectedString);
+        expect(text)
+        .withContext("Self Pickup Delivery Date is not correct!")
+        .toEqual(expectedString);
+        //.toEqual("14:00 - 16:00");
+        
+    }
 
 
 
@@ -172,6 +190,8 @@ export class Assert{
     }
 
     public AddonsPage = new class {
+        doorToDoorDeliveryDateTime = Functionss.doorToDoorDeliveryDateTime;
+        doorToDoorReturnDateTime = Functionss.doorToDoorReturnDateTime;
         deliveryDateTime = Functionss.deliveryDateTime;
         returnDateTime = Functionss.returnDateTime;
         rentalPricePeriod = Functionss.rentalPricePeriod;
@@ -188,6 +208,10 @@ export class Assert{
         selfPickupTime = Functionss.selfPickupTime;
         selfPickupReturnDate = Functionss.selfPickupReturnDate;
         selfPickupReturnTime = Functionss.selfPickupReturnTime;
+        doorToDoorDeliveryDate = Functionss.selfPickupDate;
+        doorToDoorDeliveryTimePeriod = Functionss.doorToDoorDeliveryTimePeriod;
+        doorToDoorReturnDate = Functionss.selfPickupReturnDate;
+        doorToDoorReturnTimePeriod = Functionss.doorToDoorDeliveryTimePeriod;
 
     }
 
@@ -195,6 +219,9 @@ export class Assert{
         selfPickupDate = Functionss.selfPickupDate;
         selfPickupReturnDate = Functionss.selfPickupReturnDate;
         selfPickupTime = Functionss.selfPickupTime;
+        doorToDoorDeliveryDate = Functionss.selfPickupDate;
+        doorToDoorReturnDate = Functionss.selfPickupReturnDate;
+        doorToDoorDeliveryTimePeriod = Functionss.doorToDoorDeliveryTimePeriod;
         //selfPickupLocation
 
     }

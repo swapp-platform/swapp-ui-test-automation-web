@@ -80,8 +80,8 @@ pocCase1
 
 
                     it('Change location', async () => {
-                        await BookingDeliveryDetailsPage.editDoor2DoorLocationDeliveryButton.click();
-                        await BookingDeliveryDetailsPage.door2DoorMap.addressInput.click();
+                        await BookingDeliveryDetailsPage.editDoor2DoorLocationDeliveryButton.visiblityClick();
+                        await BookingDeliveryDetailsPage.door2DoorMap.addressInput.visiblityClick();
                         await BookingDeliveryDetailsPage.door2DoorMap.addressInput.setValue(details!.doorToDoorLocation!.toString());
                         await BookingDeliveryDetailsPage.door2DoorMap.selectAddressSuggestion(1).visiblityClick();
                         await BookingDeliveryDetailsPage.door2DoorMap.confirmAddressButton.visiblityClick();
@@ -180,17 +180,13 @@ pocCase1
 
                 if(option == DeliverOption.DOOR_TO_DOOR){
                     AssertInstance.AddonsPage
-                    .doorToDoorDeliveryPrice(await BookingDeliveryDetailsPage.rentalBreakdownPanel.doorToDoorDelivery.getText(), testCase);
+                    .doorToDoorDeliveryPrice(await BookingAddonsPage.rentalBreakdownPanel.doorToDoorDelivery(true).getText(), testCase);
                 }
 
                 // summary
                 expect(await BookingDeliveryDetailsPage.rentalBreakdownPanel.rentalPriceSummary.getText())
                 .withContext("Total price is not correct!")
                 .toEqual(`AED ${BookingDeliveryDetailsPage.calculateSummary(testCase)}`);
-
-                //await BookingPaymentPage.bookCarButton.visiblityClick();
-
-                //await BookingAddonsPage.continueToPaymentButton.visiblityClick();
             });
         });
 
@@ -214,17 +210,17 @@ pocCase1
 
             await browser.pause(5000); // wait for redirect
 
+            await BookingSuccesCheckoutPage.checkYourBookingButton.visiblityClick();
+
             //expect(browser.getUrl())
             //.withContext("NOT REDIRECTED")
             //.toContain("/success-checkout/")
             //.toEqual(`${EnvironmentVariables.joinswapp_url}/en-DXB/${testCase.city}/booking/{some regex check?}}/success-checkout/`)
 
-            //await BookingSuccesCheckoutPage.checkYourBookingButton.visiblityClick();
-
         });
 
         // if testase is happyPath
-        /*it('Check confirmation screen - ', async () => {
+        it('Check confirmation screen - ', async () => {
             bookingId = await BookingOverviewPage.bookingId.getText();
 
             if(testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DEFAULT || testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.SELF_PICKUP){
@@ -245,26 +241,56 @@ pocCase1
             } 
             else if(testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DOOR_TO_DOOR){
                 const details = testCase.deliveryDetailsPageOptions.deliveryDetails as DoorToDoorDeliveryDetails;
-               
-            }
+                await BookingOverviewPage.doorToDoorDeliveryDate.scrollIntoView({ block: 'center', inline: 'center' });
 
-            //TODO PAYMENT ELLENŐRZÉS
-
-
-        });*/
-
-        /*it('Check banner on home screen - ', async () => {
-                await HomePage.goTo();
-                await browser.pause(10000);
                 AssertInstance.OverviewPage
+                .doorToDoorDeliveryDate(await BookingOverviewPage.doorToDoorDeliveryDate.getText(), testCase);
+
+                AssertInstance.OverviewPage
+                .doorToDoorDeliveryTimePeriod(await BookingOverviewPage.doorToDoorDeliveryTimeperiod.getText(), testCase);
+
+                AssertInstance.OverviewPage
+                .doorToDoorReturnDate(await BookingOverviewPage.doorToDoorReturnDate.getText(), testCase);
+
+                AssertInstance.OverviewPage
+                .doorToDoorReturnTimePeriod(await BookingOverviewPage.doorToDoorReturnTimeperiod.getText(), testCase);
+
+            }
+            // TODO PAYMENT ELLENÖRZÉS
+            // DATA TEST ID - ra várunk
+        });
+
+        it('Check banner on home screen - ', async () => {
+            await HomePage.goTo();
+            await browser.pause(10000);
+            if(testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.SELF_PICKUP){
+                AssertInstance.HomePage
                 .selfPickupDate(await HomePage.bookingSwiperSlide.handOverDate.getText(), testCase);
 
-                AssertInstance.OverviewPage
+                AssertInstance.HomePage
                 .selfPickupReturnDate(await HomePage.bookingSwiperSlide.handBackDate.getText(), testCase);
 
-                AssertInstance.OverviewPage
+                AssertInstance.HomePage
                 .selfPickupTime(await HomePage.bookingSwiperSlide.handOverTime.getText(), testCase);
-        });*/
+
+                // location Check
+            }
+
+            if(testCase.deliveryDetailsPageOptions.deliveryOption == DeliverOption.DOOR_TO_DOOR){
+                AssertInstance.HomePage
+                .doorToDoorDeliveryDate(await HomePage.bookingSwiperSlide.handOverDate.getText(), testCase);
+
+                AssertInstance.HomePage
+                .doorToDoorReturnDate(await HomePage.bookingSwiperSlide.handBackDate.getText(), testCase);
+
+                AssertInstance.HomePage
+                .doorToDoorDeliveryTimePeriod(await HomePage.bookingSwiperSlide.handOverTime.getText(), testCase);
+
+                // location check
+            }
+
+
+        });
 
         /*it('Check user/rental - ', async () => {
             await HomePage.rentalsNavMenu.visiblityClick();

@@ -106,3 +106,9 @@ export function getFormattedTimeAsString(date: Date): String{
     const returnString = `${date.getHours()-1}:${minutes}`;
     return returnString;
 }
+
+export function getFormattedTimePeriodAsString(date: Date): String{
+    const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes().toString();
+    const returnString = `${date.getHours()-1}:${minutes} - ${date.getHours()+1}:${minutes}`;
+    return returnString;
+}

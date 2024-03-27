@@ -135,7 +135,7 @@ pocCase1
 
                 if(option == DeliverOption.DOOR_TO_DOOR){
                     AssertInstance.DeliveryDetailsPage
-                    .doorToDoorDeliveryPrice(await BookingDeliveryDetailsPage.rentalBreakdownPanel.doorToDoorDelivery.getText(), testCase);
+                    .doorToDoorDeliveryPrice(await BookingDeliveryDetailsPage.rentalBreakdownPanel.doorToDoorDelivery(false).getText(), testCase);
                 }
 
                 // summary
@@ -189,10 +189,22 @@ pocCase1
             it('Assert data on AddonsPage =>', async () => {
                 const option: DeliverOption = testCase.deliveryDetailsPageOptions.deliveryOption;
 
-                AssertInstance.AddonsPage
-                .deliveryDateTime(await BookingAddonsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
-                AssertInstance.AddonsPage
-                .returnDateTime(await BookingAddonsPage.rentalBreakdownPanel.returnDateTime.getText(), testCase);
+                if (option == DeliverOption.DEFAULT || option == DeliverOption.SELF_PICKUP){
+                    AssertInstance.AddonsPage
+                    .deliveryDateTime(await BookingAddonsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
+                    AssertInstance.AddonsPage
+                    .returnDateTime(await BookingAddonsPage.rentalBreakdownPanel.returnDateTime.getText(), testCase);
+                }
+
+                
+                if (option == DeliverOption.DOOR_TO_DOOR){
+                    AssertInstance.AddonsPage
+                    .doorToDoorDeliveryDateTime(await BookingAddonsPage.rentalBreakdownPanel.deliveryDateTime.getText(), testCase);
+                    AssertInstance.AddonsPage
+                    .doorToDoorReturnDateTime(await BookingAddonsPage.rentalBreakdownPanel.returnDateTime.getText(), testCase);
+                }
+
+
                 AssertInstance.AddonsPage
                 .rentalPricePeriod(await BookingAddonsPage.rentalBreakdownPanel.rentalPricePeriod.getText(), testCase);
                 AssertInstance.AddonsPage
@@ -219,7 +231,7 @@ pocCase1
 
                 if(option == DeliverOption.DOOR_TO_DOOR){
                     AssertInstance.AddonsPage
-                    .doorToDoorDeliveryPrice(await BookingDeliveryDetailsPage.rentalBreakdownPanel.doorToDoorDelivery.getText(), testCase);
+                    .doorToDoorDeliveryPrice(await BookingDeliveryDetailsPage.rentalBreakdownPanel.doorToDoorDelivery(false).getText(), testCase);
                 }
 
                 // summary
@@ -292,36 +304,43 @@ pocCase1
         it('Check banner on home screen - ', async () => {
                 await HomePage.goTo();
                 await browser.pause(10000);
-                AssertInstance.OverviewPage
-                .selfPickupDate(await HomePage.bookingSwiperSlide.handOverDate.getText(), testCase);
+                const deliveryOption: DeliverOption = testCase.deliveryDetailsPageOptions.deliveryOption;
+                if(deliveryOption == DeliverOption.SELF_PICKUP || deliveryOption == DeliverOption.DEFAULT){
+                    AssertInstance.HomePage
+                    .selfPickupDate(await HomePage.bookingSwiperSlide.handOverDate.getText(), testCase);
 
-                AssertInstance.OverviewPage
-                .selfPickupReturnDate(await HomePage.bookingSwiperSlide.handBackDate.getText(), testCase);
+                    AssertInstance.HomePage
+                    .selfPickupReturnDate(await HomePage.bookingSwiperSlide.handBackDate.getText(), testCase);
 
-                AssertInstance.OverviewPage
-                .selfPickupTime(await HomePage.bookingSwiperSlide.handOverTime.getText(), testCase);
+                    AssertInstance.HomePage
+                    .selfPickupTime(await HomePage.bookingSwiperSlide.handOverTime.getText(), testCase);
+                }
+                if(deliveryOption == DeliverOption.DOOR_TO_DOOR){
+                    AssertInstance.HomePage
+                    .doorToDoorDeliveryDate(await HomePage.bookingSwiperSlide.handOverDate.getText(), testCase);
+
+                    AssertInstance.HomePage
+                    .doorToDoorReturnDate(await HomePage.bookingSwiperSlide.handBackDate.getText(), testCase);
+
+                    AssertInstance.HomePage
+                    .doorToDoorDeliveryTimePeriod(await HomePage.bookingSwiperSlide.handOverTime.getText(), testCase);
+                }
+
         });
 
         it('Check user/rental - ', async () => {
             await HomePage.rentalsNavMenu.visiblityClick();
-
             await $('//h4[@data-testid="rental_profile_myrentals-upcoming-tab"]').click();
-
             expect(await $(`//span[text()="${bookingId}"]//..//..//..//..//div`))
             .toBeDisplayed();
-
             (await $(`//span[text()="${bookingId}"]//..//..//..//..//div`)).visiblityClick();
-
             browser.pause(10000);
-
-
-    });
+        });
 
 
 
 
         it('Check admin - ', async () => {
-
             //await API.LoginToADMIN();
             await browser.url("https://qa.joinswapp.com/rental-admin/users/?pageSize=10");
             //await browser.pause(20000);
@@ -333,11 +352,6 @@ pocCase1
             // deliveries on given date
 
             // / suppliers???
-
-
-
-
-
         });
 
         

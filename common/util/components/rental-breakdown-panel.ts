@@ -31,7 +31,8 @@ export class RentalBreakdownPanel{
         return $(`(//h4[@data-testid="cars_summary_price-break-down_price-text"]//..//../p)[2]`);
     }
 
-    get doorToDoorDelivery(): WebdriverIOElement{
+    doorToDoorDelivery(isMobile: boolean): WebdriverIOElement{
+        if (isMobile)  return $(`//h1[text()='Price breakdown']//parent::div//p[text()='Door-to-door delivery']//following-sibling::h4`);
         return $(`//h4[text()='Price breakdown']//parent::div//p[text()='Door-to-door delivery']//following-sibling::h4`);
         //TODO datatestid szolgáltatásnak megfelelően (door-to-door, rental period...)
     }

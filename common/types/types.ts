@@ -139,8 +139,8 @@ export const pocCase1: POC[] = [
         isIncluded: true,
         isHappyPath: true,
         rentalFeePerDay: 80,
-        startDateTime: getDate(2024,3,27, 14,0,0), //could be improved with tomorrow()
-        endDateTime: getDate(2024,3,28, 14,0,0),
+        startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
+        endDateTime: getDate(2024,3,29, 14,0,0),
         deliveryDetailsPageOptions: {
             deliveryOption: DeliverOption.DEFAULT,
             deliveryDetails: {
@@ -161,8 +161,8 @@ export const pocCase1: POC[] = [
         isIncluded: true,
         isHappyPath: true,
         rentalFeePerDay: 80,
-        startDateTime: getDate(2024,3,27, 14,0,0), //could be improved with tomorrow()
-        endDateTime: getDate(2024,3,28, 14,0,0),
+        startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
+        endDateTime: getDate(2024,3,29, 14,0,0),
         deliveryDetailsPageOptions: {
             deliveryOption: DeliverOption.DEFAULT,
             deliveryDetails: {
@@ -183,8 +183,8 @@ export const pocCase1: POC[] = [
         isIncluded: true,
         isHappyPath: true,
         rentalFeePerDay: 80,
-        startDateTime: getDate(2024,3,27, 14,0,0), //could be improved with tomorrow()
-        endDateTime: getDate(2024,3,28, 14,0,0),
+        startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
+        endDateTime: getDate(2024,3,29, 14,0,0),
         deliveryDetailsPageOptions: {
             deliveryOption: DeliverOption.DEFAULT,
             deliveryDetails: {
@@ -205,8 +205,8 @@ export const pocCase1: POC[] = [
         isIncluded: true,
         isHappyPath: true,
         rentalFeePerDay: 80,
-        startDateTime: getDate(2024,3,27, 14,0,0), //could be improved with tomorrow()
-        endDateTime: getDate(2024,3,28, 14,0,0),
+        startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
+        endDateTime: getDate(2024,3,29, 14,0,0),
         deliveryDetailsPageOptions: {
             deliveryOption: DeliverOption.DEFAULT,
             deliveryDetails: {
@@ -222,18 +222,17 @@ export const pocCase1: POC[] = [
         }
     },
     {
-        //NEMJÓ ADAT A CASE-ID NEK
         testCase: "SW-174",
         carId: 18,
-        isIncluded: false,
+        isIncluded: true,
         isHappyPath: true,
         rentalFeePerDay: 95,
-        startDateTime: getDate(2024,3,26, 14,0,0), //could be improved with tomorrow()
-        endDateTime: getDate(2024,3,27, 14,0,0),
+        startDateTime: getDate(2024,3,28, 14,0,0), //could be improved with tomorrow()
+        endDateTime: getDate(2024,3,29, 14,0,0),
         deliveryDetailsPageOptions: {
-            deliveryOption: DeliverOption.SELF_PICKUP,
+            deliveryOption: DeliverOption.DOOR_TO_DOOR,
             deliveryDetails: {
-                selfPickupLocation: "asd",
+                doorToDoorLocation: "Burj k",
             }
         },
         addonPageOptions: {
